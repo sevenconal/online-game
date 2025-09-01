@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      OkeyMobil - Online Okey, Batak, Tavla, Pişti, Banko, King, 101 Oyna
+    </title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Top Notification Bar -->
+    <div class="notification-bar">
+      <div class="container">
+        <p>
+          <i class="fas fa-bullhorn"></i>
+          <span id="notification-text"
+            >Yeni Gold üyelik avantajları! Hemen inceleyin.</span
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+      <div class="container">
+        <div class="logo">
+          <h1>OkeyMobil</h1>
+        </div>
+        <nav>
+          <ul>
+            <li>
+              <a href="#"><i class="fas fa-home"></i> Ana Sayfa</a>
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-sign-in-alt"></i> Çoklu Giriş</a>
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-dice"></i> Okey Oyna</a>
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-trophy"></i> Turnuvalar</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="user-actions">
+          <div class="auth-buttons">
+            <button class="btn btn-outline" id="login-btn">Giriş Yap</button>
+            <button class="btn btn-primary" id="register-btn">Üye Ol</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Login/Register Modals -->
+    <div class="modal" id="login-modal" style="display: none">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Giriş Yap</h3>
+          <span class="close-modal" id="close-login">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="login-form">
+            <div class="form-group">
+              <label for="username">Kullanıcı Adı</label>
+              <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Şifre</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary" style="width: 100%">
+                Giriş Yap
+              </button>
+            </div>
+          </form>
+          <p>Üye değil misiniz? <a href="#" id="show-register">Üye Ol</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="register-modal" style="display: none">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Üye Ol</h3>
+          <span class="close-modal" id="close-register">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="register-form">
+            <div class="form-group">
+              <label for="reg-username">Kullanıcı Adı</label>
+              <input type="text" id="reg-username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-email">E-posta</label>
+              <input type="email" id="reg-email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Şifre</label>
+              <input
+                type="password"
+                id="reg-password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="reg-password-confirm">Şifre Tekrar</label>
+              <input
+                type="password"
+                id="reg-password-confirm"
+                name="password-confirm"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary" style="width: 100%">
+                Üye Ol
+              </button>
+            </div>
+          </form>
+          <p>Zaten üye misiniz? <a href="#" id="show-login">Giriş Yap</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h2>8 Oyunda <span id="total-player-count">282</span> Oyuncu</h2>
+        <p>
+          4 Oyun Salonunda Okey, Batak, Tavla, Pişti, Banko, King, 101 ve Daha
+          Fazlası
+        </p>
+        <div class="game-stats">
+          <div class="stat-card">
+            <h3><i class="fas fa-dice"></i> 1. Okey Salonu</h3>
+            <p class="player-count">72/400 Oyuncu</p>
+            <div class="salon-details">
+              <div class="room-types">
+                <span class="room-type">Okey 201</span>
+                <span class="room-type">Okey 101</span>
+                <span class="room-type">Seri Okey</span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-spade"></i> 2. Batak Salonu</h3>
+            <p class="player-count">68/400 Oyuncu</p>
+            <div class="salon-details">
+              <div class="room-types">
+                <span class="room-type">İhaleli</span>
+                <span class="room-type">İhalesiz</span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-chess-board"></i> 3. Tavla Salonu</h3>
+            <p class="player-count">85/400 Oyuncu</p>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-cards"></i> 4. Pişti Salonu</h3>
+            <p class="player-count">57/400 Oyuncu</p>
+          </div>
+        </div>
+        <div class="total-players">
+          <p>
+            Toplam <span id="total-player-count2">282</span> kişi 4 salonumuzda
+            okey, batak, tavla, pişti oynuyor
+          </p>
+        </div>
+        <button class="btn btn-large">
+          Hemen Oyna <i class="fas fa-play"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Quick Access Section -->
+    <section class="quick-access">
+      <div class="container">
+        <div class="quick-links">
+          <a href="#" class="quick-link">
+            <i class="fas fa-user-friends"></i>
+            <span>Arkadaşlarım</span>
+          </a>
+          <a href="#" class="quick-link">
+            <i class="fas fa-comments"></i>
+            <span>Lobi Sohbeti</span>
+          </a>
+          <a href="#" class="quick-link">
+            <i class="fas fa-cog"></i>
+            <span>Ayarlar</span>
+          </a>
+          <a href="#" class="quick-link">
+            <i class="fas fa-question-circle"></i>
+            <span>Yardım</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game Rooms Section -->
+    <section class="game-rooms">
+      <div class="container">
+        <h2><i class="fas fa-door-open"></i> Oyun Odaları</h2>
+        <div class="rooms-container">
+          <div class="room-category">
+            <h3><i class="fas fa-dice"></i> Okey Odaları</h3>
+            <div class="rooms-grid">
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Okey 201</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 45/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 100-1000</p>
+                  <p><i class="fas fa-shield-alt"></i> Gold Üye Girişi</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Okey 101</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 38/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 50-500</p>
+                  <p><i class="fas fa-user"></i> Üye Girişi</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Seri Okey</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 25/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 200-2000</p>
+                  <p><i class="fas fa-crown"></i> Sadece Gold</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="room-category">
+            <h3><i class="fas fa-spade"></i> Batak Odaları</h3>
+            <div class="rooms-grid">
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>İhaleli Batak</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 32/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 100-1000</p>
+                  <p><i class="fas fa-user"></i> Üye Girişi</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>İhalesiz Batak</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 21/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 50-500</p>
+                  <p><i class="fas fa-user"></i> Üye Girişi</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rankings Section -->
+    <section class="rankings">
+      <div class="container">
+        <h2><i class="fas fa-trophy"></i> Sıralamalar</h2>
+        <div class="rankings-container">
+          <div class="ranking-card">
+            <h3><i class="fas fa-trophy"></i> En İyi Oyuncular</h3>
+            <ul>
+              <li>
+                <span class="rank">1.</span>
+                <span class="player-name">Oyuncu1</span>
+                <span class="score">12500</span>
+                <span class="medal gold"><i class="fas fa-medal"></i></span>
+              </li>
+              <li>
+                <span class="rank">2.</span>
+                <span class="player-name">Oyuncu2</span>
+                <span class="score">11800</span>
+                <span class="medal silver"><i class="fas fa-medal"></i></span>
+              </li>
+              <li>
+                <span class="rank">3.</span>
+                <span class="player-name">Oyuncu3</span>
+                <span class="score">11200</span>
+                <span class="medal bronze"><i class="fas fa-medal"></i></span>
+              </li>
+              <li>
+                <span class="rank">4.</span>
+                <span class="player-name">Oyuncu4</span>
+                <span class="score">10900</span>
+              </li>
+              <li>
+                <span class="rank">5.</span>
+                <span class="player-name">Oyuncu5</span>
+                <span class="score">10500</span>
+              </li>
+              <li>
+                <span class="rank">6.</span>
+                <span class="player-name">Oyuncu6</span>
+                <span class="score">10200</span>
+              </li>
+              <li>
+                <span class="rank">7.</span>
+                <span class="player-name">Oyuncu7</span>
+                <span class="score">9900</span>
+              </li>
+              <li>
+                <span class="rank">8.</span>
+                <span class="player-name">Oyuncu8</span>
+                <span class="score">9600</span>
+              </li>
+              <li>
+                <span class="rank">9.</span>
+                <span class="player-name">Oyuncu9</span>
+                <span class="score">9300</span>
+              </li>
+              <li>
+                <span class="rank">10.</span>
+                <span class="player-name">Oyuncu10</span>
+                <span class="score">9000</span>
+              </li>
+            </ul>
+          </div>
+          <div class="ranking-card">
+            <h3><i class="fas fa-clock"></i> En Çok Çevrimiçi</h3>
+            <ul>
+              <li>
+                <span class="rank">1.</span>
+                <span class="player-name">OyuncuA</span>
+                <span class="hours">125 saat</span>
+                <span class="medal gold"><i class="fas fa-medal"></i></span>
+              </li>
+              <li>
+                <span class="rank">2.</span>
+                <span class="player-name">OyuncuB</span>
+                <span class="hours">118 saat</span>
+                <span class="medal silver"><i class="fas fa-medal"></i></span>
+              </li>
+              <li>
+                <span class="rank">3.</span>
+                <span class="player-name">OyuncuC</span>
+                <span class="hours">112 saat</span>
+                <span class="medal bronze"><i class="fas fa-medal"></i></span>
+              </li>
+              <li>
+                <span class="rank">4.</span>
+                <span class="player-name">OyuncuD</span>
+                <span class="hours">109 saat</span>
+              </li>
+              <li>
+                <span class="rank">5.</span>
+                <span class="player-name">OyuncuE</span>
+                <span class="hours">105 saat</span>
+              </li>
+              <li>
+                <span class="rank">6.</span>
+                <span class="player-name">OyuncuF</span>
+                <span class="hours">102 saat</span>
+              </li>
+              <li>
+                <span class="rank">7.</span>
+                <span class="player-name">OyuncuG</span>
+                <span class="hours">99 saat</span>
+              </li>
+              <li>
+                <span class="rank">8.</span>
+                <span class="player-name">OyuncuH</span>
+                <span class="hours">96 saat</span>
+              </li>
+              <li>
+                <span class="rank">9.</span>
+                <span class="player-name">OyuncuI</span>
+                <span class="hours">93 saat</span>
+              </li>
+              <li>
+                <span class="rank">10.</span>
+                <span class="player-name">OyuncuJ</span>
+                <span class="hours">90 saat</span>
+              </li>
+            </ul>
+          </div>
+          <div class="ranking-card">
+            <h3><i class="fas fa-star"></i> Gold Üyeler</h3>
+            <ul>
+              <li>
+                <span class="rank">1.</span>
+                <span class="player-name">GoldOyuncu1</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">2.</span>
+                <span class="player-name">GoldOyuncu2</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">3.</span>
+                <span class="player-name">GoldOyuncu3</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">4.</span>
+                <span class="player-name">GoldOyuncu4</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">5.</span>
+                <span class="player-name">GoldOyuncu5</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">6.</span>
+                <span class="player-name">GoldOyuncu6</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">7.</span>
+                <span class="player-name">GoldOyuncu7</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">8.</span>
+                <span class="player-name">GoldOyuncu8</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">9.</span>
+                <span class="player-name">GoldOyuncu9</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+              <li>
+                <span class="rank">10.</span>
+                <span class="player-name">GoldOyuncu10</span>
+                <span class="status gold-member">Gold</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2><i class="fas fa-star"></i> Neden OkeyMobil?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Mobil Uyumluluk</h3>
+            <p>
+              PC, mobil ve tablet cihazlarınızda HTML5 teknolojisi ile oynayın.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-users"></i>
+            <h3>Sosyal Özellikler</h3>
+            <p>
+              Arkadaşlarınızla oynayın, sohbet edin ve sıralamalarda yer alın.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-gamepad"></i>
+            <h3>Çeşitli Oyunlar</h3>
+            <p>7 farklı oyun türü ile eğlencenin tadını çıkarın.</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Güvenli Oyun</h3>
+            <p>Oyun oynarken adil ve güvenli bir ortam sağlıyoruz.</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-trophy"></i>
+            <h3>Turnuvalar</h3>
+            <p>Haftalık turnuvalar ile ödüllerin sahibi olun.</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-gift"></i>
+            <h3>Ödüller</h3>
+            <p>Oynadıkça kazanın, hediyeleri toplayın.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community">
+      <div class="container">
+        <h2><i class="fas fa-comments"></i> Topluluk</h2>
+        <div class="community-container">
+          <div class="chat-preview">
+            <h3><i class="fas fa-comment-dots"></i> Lobi Sohbeti</h3>
+            <div class="chat-messages" id="chat-messages">
+              <div class="message">
+                <span class="user">Oyuncu1:</span>
+                <span class="text">Herkese iyi akşamlar!</span>
+              </div>
+              <div class="message">
+                <span class="user">Oyuncu2:</span>
+                <span class="text">Okey odasında kimler var?</span>
+              </div>
+              <div class="message">
+                <span class="user">Oyuncu3:</span>
+                <span class="text">Ben varım, gelin birlikte oynayalım</span>
+              </div>
+            </div>
+            <div class="chat-input">
+              <input type="text" placeholder="Mesaj yaz..." id="chat-input" />
+              <button class="btn btn-primary" id="send-message-btn">
+                Gönder
+              </button>
+            </div>
+          </div>
+          <div class="friends-preview">
+            <h3><i class="fas fa-user-friends"></i> Arkadaşlarım (3/10)</h3>
+            <ul class="friends-list">
+              <li class="friend online">
+                <span class="status-indicator"></span>
+                <span class="friend-name">Arkadaş1</span>
+                <span class="friend-game">Okey oynuyor</span>
+              </li>
+              <li class="friend online">
+                <span class="status-indicator"></span>
+                <span class="friend-name">Arkadaş2</span>
+                <span class="friend-game">Çevrimiçi</span>
+              </li>
+              <li class="friend offline">
+                <span class="status-indicator"></span>
+                <span class="friend-name">Arkadaş3</span>
+                <span class="friend-game">Çevrimdışı</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Info Section -->
+    <section class="additional-info">
+      <div class="container">
+        <div class="info-grid">
+          <div class="info-card">
+            <h3><i class="fas fa-user-friends"></i> Arkadaş Sistemi</h3>
+            <p>
+              Arkadaş listenizi oluşturun, çevrimiçi arkadaşlarınıza meaj atın
+              ve onları oyunlara davet edin.
+            </p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-comments"></i> Sohbet</h3>
+            <p>
+              Lobi sohbetinde sohbet edin, masa sohbetinde diğer oyuncularla
+              iletişim kurun.
+            </p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-robot"></i> Robot Oyuncular</h3>
+            <p>
+              Oyun ortaklarınız eksikse masanıza robot oyuncular
+              ekleyebilirsiniz.
+            </p>
+          </div>
+          <div class="info-card">
+            <h3><i class="fas fa-ban"></i> Şikayet Sistemi</h3>
+            <p>Uygunsuz davranışları şikayet edebilirsiniz.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3><i class="fas fa-dice"></i> OkeyMobil</h3>
+            <p>
+              Online okey, batak, tavla ve daha fazlasını oynamanın en iyi yolu.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-info-circle"></i> Bilgi</h4>
+            <ul>
+              <li><a href="#">Hakkımızda</a></li>
+              <li><a href="#">Oyun Kuralları</a></li>
+              <li><a href="#">Üyelik Sözleşmesi</a></li>
+              <li><a href="#">Gizlilik Politikası</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-life-ring"></i> Destek</h4>
+            <ul>
+              <li><a href="#">Yardım</a></li>
+              <li><a href="#">SSS</a></li>
+              <li><a href="#">Şikayet</a></li>
+              <li><a href="#">İletişim</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-envelope"></i> İletişim</h4>
+            <p><i class="fas fa-envelope"></i> destek@okeymobil.com</p>
+            <p><i class="fas fa-phone"></i> +90 123 456 7890</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 OkeyMobil. Tüm hakları saklıdır.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
