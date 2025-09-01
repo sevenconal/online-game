@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      OkeyMobil - Online Okey, Batak, Tavla, Pişti, Banko, King, 101 Oyna
-    </title>
+    <title>OkeyMobil - Online Okey, Batak, Tavla, Pişti Oyna</title>
     <link rel="stylesheet" href="css/style.css" />
     <link
       rel="stylesheet"
@@ -27,7 +25,11 @@
     <header>
       <div class="container">
         <div class="logo">
-          <h1>OkeyMobil</h1>
+          <h1>
+            <a href="index.html" style="text-decoration: none; color: inherit"
+              >OkeyMobil</a
+            >
+          </h1>
         </div>
         <nav>
           <ul>
@@ -66,9 +68,7 @@
               <input type="password" id="password" name="password" required />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">
-                Giriş Yap
-              </button>
+              <button type="submit" class="btn btn-primary">Giriş Yap</button>
             </div>
           </form>
           <p>Üye değil misiniz? <a href="#" id="show-register">Üye Ol</a></p>
@@ -111,9 +111,7 @@
               />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">
-                Üye Ol
-              </button>
+              <button type="submit" class="btn btn-primary">Üye Ol</button>
             </div>
           </form>
           <p>Zaten üye misiniz? <a href="#" id="show-login">Giriş Yap</a></p>
@@ -125,37 +123,56 @@
     <section class="hero">
       <div class="container">
         <h2>4 Oyunda <span>282</span> Oyuncu</h2>
-        <p>
-          4 Oyun Salonunda Okey, Batak, Tavla, Pişti, Banko, King, 101 ve Daha
-          Fazlası
-        </p>
+        <p>4 Oyun Salonunda Okey, Batak, Tavla, Pişti Oynayın</p>
         <div class="game-stats">
           <div class="stat-card">
             <h3><i class="fas fa-dice"></i> Okey Salonu</h3>
             <p class="player-count">72/400 Oyuncu</p>
-
+            <a
+              href="okey-salonlari.html"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 15px"
+              >Salonlara Git</a
+            >
           </div>
           <div class="stat-card">
             <h3><i class="fas fa-spade"></i> Batak Salonu</h3>
             <p class="player-count">68/400 Oyuncu</p>
-
+            <a
+              href="batak-salonlari.html"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 15px"
+              >Salonlara Git</a
+            >
           </div>
           <div class="stat-card">
             <h3><i class="fas fa-chess-board"></i> Tavla Salonu</h3>
             <p class="player-count">85/400 Oyuncu</p>
+            <a
+              href="tavla-salonlari.html"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 15px"
+              >Salonlara Git</a
+            >
           </div>
           <div class="stat-card">
             <h3><i class="fas fa-cards"></i> Pişti Salonu</h3>
             <p class="player-count">57/400 Oyuncu</p>
+            <a
+              href="pisti-salonlari.html"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 15px"
+              >Salonlara Git</a
+            >
           </div>
         </div>
         <div class="total-players">
           <p>
-            Toplam <span>282</span> kişi 4 oyunumuzda
-            okey, batak, tavla, pişti oynuyor
+            Toplam <span>282</span> kişi 4 oyunumuzda okey, batak, tavla, pişti
+            oynuyor
           </p>
         </div>
-        <button class="btn btn-large">
+        <button class="btn btn-large" id="quick-play-btn">
           Hemen Oyna <i class="fas fa-play"></i>
         </button>
       </div>
@@ -165,7 +182,7 @@
     <section class="quick-access">
       <div class="container">
         <div class="quick-links">
-          <a href="#" class="quick-link">
+          <a href="arkadaslar.html" class="quick-link">
             <i class="fas fa-user-friends"></i>
             <span>Arkadaşlarım</span>
           </a>
@@ -203,7 +220,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 100-1000</p>
                   <p><i class="fas fa-shield-alt"></i> Gold Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary">Odaya Katıl</button>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
               </div>
               <div class="room-card">
                 <div class="room-header">
@@ -215,7 +232,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 50-500</p>
                   <p><i class="fas fa-user"></i> Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary">Odaya Katıl</button>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
               </div>
               <div class="room-card">
                 <div class="room-header">
@@ -227,7 +244,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 200-2000</p>
                   <p><i class="fas fa-crown"></i> Sadece Gold</p>
                 </div>
-                <button class="btn btn-primary">Odaya Katıl</button>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
               </div>
             </div>
           </div>
@@ -245,7 +262,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 100-1000</p>
                   <p><i class="fas fa-user"></i> Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary">Odaya Katıl</button>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
               </div>
               <div class="room-card">
                 <div class="room-header">
@@ -257,7 +274,91 @@
                   <p><i class="fas fa-coins"></i> Bahis: 50-500</p>
                   <p><i class="fas fa-user"></i> Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary">Odaya Katıl</button>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="room-category">
+            <h3><i class="fas fa-chess-board"></i> Tavla Odaları</h3>
+            <div class="rooms-grid">
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Acemi Tavla</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 28/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 10-100</p>
+                  <p><i class="fas fa-graduation-cap"></i> Yeni Oyuncular</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Orta Seviye</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 35/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 100-500</p>
+                  <p><i class="fas fa-chart-line"></i> Deneyimli Oyuncular</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Uzman Tavla</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 22/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 500-2000</p>
+                  <p><i class="fas fa-crown"></i> Uzman Oyuncular</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="room-category">
+            <h3><i class="fas fa-cards"></i> Pişti Odaları</h3>
+            <div class="rooms-grid">
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Acemi Pişti</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 24/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 10-100</p>
+                  <p><i class="fas fa-graduation-cap"></i> Yeni Oyuncular</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Orta Seviye</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 31/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 100-500</p>
+                  <p><i class="fas fa-chart-line"></i> Deneyimli Oyuncular</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+              </div>
+              <div class="room-card">
+                <div class="room-header">
+                  <h4>Uzman Pişti</h4>
+                  <span class="room-status online">Aktif</span>
+                </div>
+                <div class="room-info">
+                  <p><i class="fas fa-users"></i> 19/100 Oyuncu</p>
+                  <p><i class="fas fa-coins"></i> Bahis: 500-2000</p>
+                  <p><i class="fas fa-crown"></i> Uzman Oyuncular</p>
+                </div>
+                <button class="btn btn-primary room-btn">Odaya Katıl</button>
               </div>
             </div>
           </div>
@@ -275,56 +376,56 @@
             <ul>
               <li>
                 <span class="rank">1.</span>
-                <span class="player-name">Oyuncu1</span>
-                <span class="score">12500</span>
+                <span class="player-name">MasterGamer</span>
+                <span class="score">12.5K</span>
                 <span class="medal gold"><i class="fas fa-medal"></i></span>
               </li>
               <li>
                 <span class="rank">2.</span>
-                <span class="player-name">Oyuncu2</span>
-                <span class="score">11800</span>
+                <span class="player-name">ProPlayer</span>
+                <span class="score">11.8K</span>
                 <span class="medal silver"><i class="fas fa-medal"></i></span>
               </li>
               <li>
                 <span class="rank">3.</span>
-                <span class="player-name">Oyuncu3</span>
-                <span class="score">11200</span>
+                <span class="player-name">GameKing</span>
+                <span class="score">11.2K</span>
                 <span class="medal bronze"><i class="fas fa-medal"></i></span>
               </li>
               <li>
                 <span class="rank">4.</span>
-                <span class="player-name">Oyuncu4</span>
-                <span class="score">10900</span>
+                <span class="player-name">SkillMaster</span>
+                <span class="score">10.9K</span>
               </li>
               <li>
                 <span class="rank">5.</span>
-                <span class="player-name">Oyuncu5</span>
-                <span class="score">10500</span>
+                <span class="player-name">TopScorer</span>
+                <span class="score">10.5K</span>
               </li>
               <li>
                 <span class="rank">6.</span>
-                <span class="player-name">Oyuncu6</span>
-                <span class="score">10200</span>
+                <span class="player-name">ElitePlayer</span>
+                <span class="score">10.2K</span>
               </li>
               <li>
                 <span class="rank">7.</span>
-                <span class="player-name">Oyuncu7</span>
-                <span class="score">9900</span>
+                <span class="player-name">Champion</span>
+                <span class="score">9.9K</span>
               </li>
               <li>
                 <span class="rank">8.</span>
-                <span class="player-name">Oyuncu8</span>
-                <span class="score">9600</span>
+                <span class="player-name">GameWizard</span>
+                <span class="score">9.6K</span>
               </li>
               <li>
                 <span class="rank">9.</span>
-                <span class="player-name">Oyuncu9</span>
-                <span class="score">9300</span>
+                <span class="player-name">ProGamer</span>
+                <span class="score">9.3K</span>
               </li>
               <li>
                 <span class="rank">10.</span>
-                <span class="player-name">Oyuncu10</span>
-                <span class="score">9000</span>
+                <span class="player-name">AcePlayer</span>
+                <span class="score">9.0K</span>
               </li>
             </ul>
           </div>
@@ -334,55 +435,55 @@
               <li>
                 <span class="rank">1.</span>
                 <span class="player-name">OyuncuA</span>
-                <span class="hours">125 saat</span>
+                <span class="hours">125s</span>
                 <span class="medal gold"><i class="fas fa-medal"></i></span>
               </li>
               <li>
                 <span class="rank">2.</span>
                 <span class="player-name">OyuncuB</span>
-                <span class="hours">118 saat</span>
+                <span class="hours">118s</span>
                 <span class="medal silver"><i class="fas fa-medal"></i></span>
               </li>
               <li>
                 <span class="rank">3.</span>
                 <span class="player-name">OyuncuC</span>
-                <span class="hours">112 saat</span>
+                <span class="hours">112s</span>
                 <span class="medal bronze"><i class="fas fa-medal"></i></span>
               </li>
               <li>
                 <span class="rank">4.</span>
                 <span class="player-name">OyuncuD</span>
-                <span class="hours">109 saat</span>
+                <span class="hours">109s</span>
               </li>
               <li>
                 <span class="rank">5.</span>
                 <span class="player-name">OyuncuE</span>
-                <span class="hours">105 saat</span>
+                <span class="hours">105s</span>
               </li>
               <li>
                 <span class="rank">6.</span>
                 <span class="player-name">OyuncuF</span>
-                <span class="hours">102 saat</span>
+                <span class="hours">102s</span>
               </li>
               <li>
                 <span class="rank">7.</span>
                 <span class="player-name">OyuncuG</span>
-                <span class="hours">99 saat</span>
+                <span class="hours">99s</span>
               </li>
               <li>
                 <span class="rank">8.</span>
                 <span class="player-name">OyuncuH</span>
-                <span class="hours">96 saat</span>
+                <span class="hours">96s</span>
               </li>
               <li>
                 <span class="rank">9.</span>
                 <span class="player-name">OyuncuI</span>
-                <span class="hours">93 saat</span>
+                <span class="hours">93s</span>
               </li>
               <li>
                 <span class="rank">10.</span>
                 <span class="player-name">OyuncuJ</span>
-                <span class="hours">90 saat</span>
+                <span class="hours">90s</span>
               </li>
             </ul>
           </div>
@@ -396,47 +497,47 @@
               </li>
               <li>
                 <span class="rank">2.</span>
-                <span class="player-name">GoldOyuncu2</span>
+                <span class="player-name">GOyuncu2</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">3.</span>
-                <span class="player-name">GoldOyuncu3</span>
+                <span class="player-name">GOyuncu3</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">4.</span>
-                <span class="player-name">GoldOyuncu4</span>
+                <span class="player-name">GOyuncu4</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">5.</span>
-                <span class="player-name">GoldOyuncu5</span>
+                <span class="player-name">GOyuncu5</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">6.</span>
-                <span class="player-name">GoldOyuncu6</span>
+                <span class="player-name">GOyuncu6</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">7.</span>
-                <span class="player-name">GoldOyuncu7</span>
+                <span class="player-name">GOyuncu7</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">8.</span>
-                <span class="player-name">GoldOyuncu8</span>
+                <span class="player-name">GOyuncu8</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">9.</span>
-                <span class="player-name">GoldOyuncu9</span>
+                <span class="player-name">GOyuncu9</span>
                 <span class="status gold-member">Gold</span>
               </li>
               <li>
                 <span class="rank">10.</span>
-                <span class="player-name">GoldOyuncu10</span>
+                <span class="player-name">GOyuncu10</span>
                 <span class="status gold-member">Gold</span>
               </li>
             </ul>
@@ -468,9 +569,7 @@
             </div>
             <div class="chat-input">
               <input type="text" placeholder="Mesaj yaz..." />
-              <button class="btn btn-primary">
-                Gönder
-              </button>
+              <button class="btn btn-primary">Gönder</button>
             </div>
           </div>
           <div class="friends-preview">

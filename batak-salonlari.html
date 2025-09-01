@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Batak Salonları - OkeyMobil</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body class="game-batak">
+    <!-- Top Notification Bar -->
+    <div class="notification-bar">
+      <div class="container">
+        <p>
+          <i class="fas fa-bullhorn"></i>
+          <span id="notification-text"
+            >Yeni Gold üyelik avantajları! Hemen inceleyin.</span
+          >
+        </p>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+      <div class="container">
+        <div class="logo">
+          <h1>
+            <a href="index.html" style="text-decoration: none; color: inherit"
+              >OkeyMobil</a
+            >
+          </h1>
+        </div>
+        <nav>
+          <ul>
+            <li>
+              <a href="index.html"><i class="fas fa-home"></i> Ana Sayfa</a>
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-sign-in-alt"></i> Çoklu Giriş</a>
+            </li>
+            <li>
+              <a href="okey-salonlari.html"
+                ><i class="fas fa-dice"></i> Okey Salonları</a
+              >
+            </li>
+            <li>
+              <a href="batak-salonlari.html" class="active"
+                ><i class="fas fa-spade"></i> Batak Salonları</a
+              >
+            </li>
+            <li>
+              <a href="arkadaslar.html"
+                ><i class="fas fa-user-friends"></i> Arkadaşlarım</a
+              >
+              <li>
+                <a href="file:///C:/Users/Sevenc%20Ozan/Desktop/okey-clone/arkadaslar.html"><i class="fas fa-user-friends"></i> Arkadaşlarım</a>
+              </li>
+              >
+            </li>
+          </ul>
+        </nav>
+        <div class="user-actions">
+          <div class="auth-buttons">
+            <button class="btn btn-outline" id="login-btn">Giriş Yap</button>
+            <button class="btn btn-primary" id="register-btn">Üye Ol</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Login/Register Modals -->
+    <div class="modal" id="login-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Giriş Yap</h3>
+          <span class="close-modal" id="close-login">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="login-form">
+            <div class="form-group">
+              <label for="username">Kullanıcı Adı</label>
+              <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Şifre</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Giriş Yap</button>
+            </div>
+          </form>
+          <p>Üye değil misiniz? <a href="#" id="show-register">Üye Ol</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="register-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Üye Ol</h3>
+          <span class="close-modal" id="close-register">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="register-form">
+            <div class="form-group">
+              <label for="reg-username">Kullanıcı Adı</label>
+              <input type="text" id="reg-username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-email">E-posta</label>
+              <input type="email" id="reg-email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Şifre</label>
+              <input
+                type="password"
+                id="reg-password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="reg-password-confirm">Şifre Tekrar</label>
+              <input
+                type="password"
+                id="reg-password-confirm"
+                name="password-confirm"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Üye Ol</button>
+            </div>
+          </form>
+          <p>Zaten üye misiniz? <a href="#" id="show-login">Giriş Yap</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container main-container">
+      <div class="page-header">
+        <h1><i class="fas fa-spade"></i> Batak Salonları</h1>
+      </div>
+
+      <div class="content-layout">
+        <!-- Left Sidebar - Online Users -->
+        <aside class="sidebar online-users">
+          <div class="sidebar-header">
+            <h3><i class="fas fa-users"></i> Çevrimiçi Kullanıcılar</h3>
+          </div>
+          <div class="sidebar-content">
+            <ul class="user-list">
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu1</span>
+                <span class="user-status">Batak oynuyor</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu2</span>
+                <span class="user-status">Lobide</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu3</span>
+                <span class="user-status">Batak oynuyor</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu4</span>
+                <span class="user-status">Lobide</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu5</span>
+                <span class="user-status">Batak oynuyor</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu6</span>
+                <span class="user-status">Lobide</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu7</span>
+                <span class="user-status">Batak oynuyor</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu8</span>
+                <span class="user-status">Lobide</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu9</span>
+                <span class="user-status">Batak oynuyor</span>
+              </li>
+              <li class="user-item online">
+                <span class="status-indicator"></span>
+                <span class="user-name">Oyuncu10</span>
+                <span class="user-status">Lobide</span>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+          <!-- Chat Section -->
+          <section class="chat-section">
+            <div class="section-header">
+              <h3><i class="fas fa-comments"></i> Batak Sohbet Odası</h3>
+            </div>
+            <div class="chat-container">
+              <div class="chat-messages" id="chat-messages">
+                <div class="message">
+                  <span class="user">Oyuncu1:</span>
+                  <span class="text">Herkese iyi akşamlar!</span>
+                </div>
+                <div class="message">
+                  <span class="user">Oyuncu2:</span>
+                  <span class="text">Batak odasında kimler var?</span>
+                </div>
+                <div class="message">
+                  <span class="user">Oyuncu3:</span>
+                  <span class="text">Ben varım, gelin birlikte oynayalım</span>
+                </div>
+              </div>
+              <div class="chat-input">
+                <input type="text" placeholder="Mesaj yaz..." id="chat-input" />
+                <button class="btn btn-primary" id="send-message-btn">
+                  Gönder
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Game Tables Section -->
+          <section class="game-tables-section">
+            <div class="section-header">
+              <h3><i class="fas fa-door-open"></i> Aktif Batak Odaları</h3>
+            </div>
+            <div class="tables-grid">
+              <!-- Masa 1 -->
+              <div class="game-table">
+                <div class="table-number">2589</div>
+                <div class="table-surface">
+                  <div class="table-players">
+                    <div class="player top">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">BatakKing</div>
+                    </div>
+                    <div class="player right">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">SinekMaster</div>
+                    </div>
+                    <div class="player bottom">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">KaroQueen</div>
+                    </div>
+                    <div class="player left">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">KupaLord</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-indicators">
+                  <span class="indicator speed">Hızlı</span>
+                  <span class="indicator mode">İhaleli</span>
+                  <span class="indicator chat">Sohbet Açık</span>
+                  <span class="indicator viewers">👁️ 7</span>
+                  <span class="indicator status">Oyun Başladı</span>
+                </div>
+                <div class="table-score">Puan: 890</div>
+                <button class="btn btn-play">Oyna</button>
+              </div>
+              <!-- Masa 2 -->
+              <div class="game-table">
+                <div class="table-number">2588</div>
+                <div class="table-surface">
+                  <div class="table-players">
+                    <div class="player top">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">BatakPro</div>
+                    </div>
+                    <div class="player right">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">CardMaster</div>
+                    </div>
+                    <div class="player bottom empty">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">Boş</div>
+                    </div>
+                    <div class="player left">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">TrumpKing</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-indicators">
+                  <span class="indicator speed">Normal</span>
+                  <span class="indicator mode">İhalesiz</span>
+                  <span class="indicator chat">Sohbet Kapalı</span>
+                  <span class="indicator viewers">👁️ 3</span>
+                  <span class="indicator status">Başlamadı</span>
+                </div>
+                <div class="table-score">Puan: 0</div>
+                <button class="btn btn-play">Oyna</button>
+              </div>
+              <!-- Masa 3 -->
+              <div class="game-table">
+                <div class="table-number">2587</div>
+                <div class="table-surface">
+                  <div class="table-players">
+                    <div class="player top">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">BatakQueen</div>
+                    </div>
+                    <div class="player right">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">SpadeAce</div>
+                    </div>
+                    <div class="player bottom">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">HeartJack</div>
+                    </div>
+                    <div class="player left">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">DiamondTen</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-indicators">
+                  <span class="indicator speed">Hızlı</span>
+                  <span class="indicator mode">Çiftli</span>
+                  <span class="indicator chat">Sohbet Açık</span>
+                  <span class="indicator viewers">👁️ 9</span>
+                  <span class="indicator status">Oyun Başladı</span>
+                </div>
+                <div class="table-score">Puan: 1240</div>
+                <button class="btn btn-play">Oyna</button>
+              </div>
+              <!-- Masa 4 -->
+              <div class="game-table banned">
+                <div class="table-number">2586</div>
+                <div class="table-surface">
+                  <div class="table-players">
+                    <div class="player top">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">BatakLord</div>
+                    </div>
+                    <div class="player right">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">CardWizard</div>
+                    </div>
+                    <div class="player bottom">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">TrumpMaster</div>
+                    </div>
+                    <div class="player left">
+                      <div class="player-avatar">♠️</div>
+                      <div class="player-name">GameKing</div>
+                    </div>
+                  </div>
+                  <div class="banned-overlay">
+                    <span class="banned-icon">🚫</span>
+                    <span class="banned-text">Yasak</span>
+                  </div>
+                </div>
+                <div class="table-indicators">
+                  <span class="indicator speed">Normal</span>
+                  <span class="indicator mode">VIP</span>
+                  <span class="indicator chat">Sohbet Kapalı</span>
+                  <span class="indicator viewers">👁️ 0</span>
+                  <span class="indicator status">Kapalı</span>
+                </div>
+                <div class="table-score">Puan: 0</div>
+                <button class="btn btn-play disabled">Oyna</button>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3><i class="fas fa-dice"></i> OkeyMobil</h3>
+            <p>
+              Online okey, batak, tavla ve daha fazlasını oynamanın en iyi yolu.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-info-circle"></i> Bilgi</h4>
+            <ul>
+              <li><a href="#">Hakkımızda</a></li>
+              <li><a href="#">Oyun Kuralları</a></li>
+              <li><a href="#">Üyelik Sözleşmesi</a></li>
+              <li><a href="#">Gizlilik Politikası</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-life-ring"></i> Destek</h4>
+            <ul>
+              <li><a href="#">Yardım</a></li>
+              <li><a href="#">SSS</a></li>
+              <li><a href="#">Şikayet</a></li>
+              <li><a href="#">İletişim</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-envelope"></i> İletişim</h4>
+            <p><i class="fas fa-envelope"></i> destek@okeymobil.com</p>
+            <p><i class="fas fa-phone"></i> +90 123 456 7890</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 OkeyMobil. Tüm hakları saklıdır.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arkadaşlarım - OkeyMobil</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Top Notification Bar -->
+    <div class="notification-bar">
+      <div class="container">
+        <p>
+          <i class="fas fa-bullhorn"></i>
+          <span>Yeni Gold üyelik avantajları! Hemen inceleyin.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+      <div class="container">
+        <div class="logo">
+          <h1>
+            <a
+              href="file:///C:/Users/Sevenc%20Ozan/Desktop/okey-clone/index.html"
+              style="text-decoration: none; color: inherit"
+              >OkeyMobil</a
+            >
+          </h1>
+        </div>
+        <nav>
+          <ul>
+            <li>
+              <a
+                href="file:///C:/Users/Sevenc%20Ozan/Desktop/okey-clone/index.html"
+                ><i class="fas fa-home"></i> Ana Sayfa</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-sign-in-alt"></i> Çoklu Giriş</a>
+            </li>
+            <li>
+              <a
+                href="file:///C:/Users/Sevenc%20Ozan/Desktop/okey-clone/okey-salonlari.html"
+                ><i class="fas fa-dice"></i> Okey Salonları</a
+              >
+            </li>
+            <li>
+              <a href="arkadaslar.html" class="active"
+                ><i class="fas fa-user-friends"></i> Arkadaşlarım</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <div class="user-actions">
+          <div class="auth-buttons">
+            <button class="btn btn-outline" id="login-btn">Giriş Yap</button>
+            <button class="btn btn-primary" id="register-btn">Üye Ol</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Login/Register Modals -->
+    <div class="modal" id="login-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Giriş Yap</h3>
+          <span class="close-modal" id="close-login">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="login-form">
+            <div class="form-group">
+              <label for="username">Kullanıcı Adı</label>
+              <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Şifre</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Giriş Yap</button>
+            </div>
+          </form>
+          <p>Üye değil misiniz? <a href="#" id="show-register">Üye Ol</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="register-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Üye Ol</h3>
+          <span class="close-modal" id="close-register">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="register-form">
+            <div class="form-group">
+              <label for="reg-username">Kullanıcı Adı</label>
+              <input type="text" id="reg-username" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-email">E-posta</label>
+              <input type="email" id="reg-email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Şifre</label>
+              <input
+                type="password"
+                id="reg-password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="reg-password-confirm">Şifre Tekrar</label>
+              <input
+                type="password"
+                id="reg-password-confirm"
+                name="password-confirm"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Üye Ol</button>
+            </div>
+          </form>
+          <p>Zaten üye misiniz? <a href="#" id="show-login">Giriş Yap</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container main-container">
+      <div class="page-header">
+        <h1><i class="fas fa-user-friends"></i> Arkadaşlarım</h1>
+        <p>Arkadaşlarınızla özel mesajlaşın ve oyunlara davet edin</p>
+      </div>
+
+      <div class="friends-layout">
+        <!-- Friends List Sidebar -->
+        <aside class="friends-sidebar">
+          <div class="sidebar-header">
+            <h3><i class="fas fa-users"></i> Arkadaş Listesi (8/10)</h3>
+            <button class="btn btn-outline btn-sm" id="add-friend-btn">
+              <i class="fas fa-plus"></i> Arkadaş Ekle
+            </button>
+          </div>
+          <div class="friends-list-container">
+            <ul class="friends-list">
+              <li class="friend-item online active" data-friend="MasterGamer">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/4CAF50/FFFFFF?text=MG"
+                    alt="MasterGamer"
+                  />
+                  <span class="status-indicator online"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">MasterGamer</div>
+                  <div class="friend-status">Çevrimiçi - Okey oynuyor</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon" title="Mesaj Gönder">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon" title="Oyun Davet Et">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+              <li class="friend-item online" data-friend="ProPlayer">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/2196F3/FFFFFF?text=PP"
+                    alt="ProPlayer"
+                  />
+                  <span class="status-indicator online"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">ProPlayer</div>
+                  <div class="friend-status">Çevrimiçi - Lobide</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon" title="Mesaj Gönder">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon" title="Oyun Davet Et">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+              <li class="friend-item online" data-friend="GameKing">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/FF9800/FFFFFF?text=GK"
+                    alt="GameKing"
+                  />
+                  <span class="status-indicator online"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">GameKing</div>
+                  <div class="friend-status">Çevrimiçi - Batak oynuyor</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon" title="Mesaj Gönder">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon" title="Oyun Davet Et">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+              <li class="friend-item away" data-friend="SkillMaster">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/9C27B0/FFFFFF?text=SM"
+                    alt="SkillMaster"
+                  />
+                  <span class="status-indicator away"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">SkillMaster</div>
+                  <div class="friend-status">Uzakta - 5 dk önce aktif</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon" title="Mesaj Gönder">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon" title="Oyun Davet Et">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+              <li class="friend-item online" data-friend="TopScorer">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/4CAF50/FFFFFF?text=TS"
+                    alt="TopScorer"
+                  />
+                  <span class="status-indicator online"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">TopScorer</div>
+                  <div class="friend-status">Çevrimiçi - Tavla oynuyor</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon" title="Mesaj Gönder">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon" title="Oyun Davet Et">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+              <li class="friend-item offline" data-friend="ElitePlayer">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/757575/FFFFFF?text=EP"
+                    alt="ElitePlayer"
+                  />
+                  <span class="status-indicator offline"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">ElitePlayer</div>
+                  <div class="friend-status">Çevrimdışı - 2 saat önce</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon disabled" title="Çevrimdışı">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon disabled" title="Çevrimdışı">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+              <li class="friend-item online" data-friend="Champion">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/FF5722/FFFFFF?text=CH"
+                    alt="Champion"
+                  />
+                  <span class="status-indicator online"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">Champion</div>
+                  <div class="friend-status">Çevrimiçi - Pişti oynuyor</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon" title="Mesaj Gönder">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon" title="Oyun Davet Et">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+              <li class="friend-item away" data-friend="GameWizard">
+                <div class="friend-avatar">
+                  <img
+                    src="https://via.placeholder.com/40x40/607D8B/FFFFFF?text=GW"
+                    alt="GameWizard"
+                  />
+                  <span class="status-indicator away"></span>
+                </div>
+                <div class="friend-info">
+                  <div class="friend-name">GameWizard</div>
+                  <div class="friend-status">Uzakta - 15 dk önce aktif</div>
+                </div>
+                <div class="friend-actions">
+                  <button class="btn-icon" title="Mesaj Gönder">
+                    <i class="fas fa-comment"></i>
+                  </button>
+                  <button class="btn-icon" title="Oyun Davet Et">
+                    <i class="fas fa-gamepad"></i>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- DM Chat Area -->
+        <main class="dm-chat-area">
+          <div class="chat-header">
+            <div class="chat-user-info">
+              <img
+                src="https://via.placeholder.com/40x40/4CAF50/FFFFFF?text=MG"
+                alt="MasterGamer"
+                class="chat-avatar"
+              />
+              <div class="chat-user-details">
+                <h4>MasterGamer</h4>
+                <span class="chat-status online">Çevrimiçi</span>
+              </div>
+            </div>
+            <div class="chat-actions">
+              <button class="btn-icon" title="Sesli Arama">
+                <i class="fas fa-phone"></i>
+              </button>
+              <button class="btn-icon" title="Video Arama">
+                <i class="fas fa-video"></i>
+              </button>
+              <button class="btn-icon" title="Daha Fazla">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="dm-messages">
+            <div class="message received">
+              <div class="message-avatar">
+                <img
+                  src="https://via.placeholder.com/32x32/4CAF50/FFFFFF?text=MG"
+                  alt="MasterGamer"
+                />
+              </div>
+              <div class="message-content">
+                <div class="message-text">Selam! Nasılsın bugün?</div>
+                <div class="message-time">14:30</div>
+              </div>
+            </div>
+            <div class="message sent">
+              <div class="message-content">
+                <div class="message-text">
+                  Merhaba! İyiyim teşekkürler. Sen nasılsın?
+                </div>
+                <div class="message-time">14:31</div>
+              </div>
+            </div>
+            <div class="message received">
+              <div class="message-avatar">
+                <img
+                  src="https://via.placeholder.com/32x32/4CAF50/FFFFFF?text=MG"
+                  alt="MasterGamer"
+                />
+              </div>
+              <div class="message-content">
+                <div class="message-text">
+                  Ben de iyiyim. Biraz okey oynayalım mı?
+                </div>
+                <div class="message-time">14:32</div>
+              </div>
+            </div>
+            <div class="message sent">
+              <div class="message-content">
+                <div class="message-text">
+                  Tabii, neden olmasın! Hangi masaya girelim?
+                </div>
+                <div class="message-time">14:33</div>
+              </div>
+            </div>
+            <div class="message received">
+              <div class="message-avatar">
+                <img
+                  src="https://via.placeholder.com/32x32/4CAF50/FFFFFF?text=MG"
+                  alt="MasterGamer"
+                />
+              </div>
+              <div class="message-content">
+                <div class="message-text">
+                  3897 numaralı masa boş, oraya girelim mi?
+                </div>
+                <div class="message-time">14:34</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-input-area">
+            <div class="chat-input-container">
+              <input type="text" placeholder="Mesaj yazın..." id="dm-input" />
+              <button class="btn-icon" id="send-dm-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+            <div class="chat-input-actions">
+              <button class="btn-icon" title="Emoji">
+                <i class="fas fa-smile"></i>
+              </button>
+              <button class="btn-icon" title="Resim">
+                <i class="fas fa-image"></i>
+              </button>
+              <button class="btn-icon" title="Dosya">
+                <i class="fas fa-paperclip"></i>
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3><i class="fas fa-dice"></i> OkeyMobil</h3>
+            <p>
+              Online okey, batak, tavla ve daha fazlasını oynamanın en iyi yolu.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-info-circle"></i> Bilgi</h4>
+            <ul>
+              <li><a href="#">Hakkımızda</a></li>
+              <li><a href="#">Oyun Kuralları</a></li>
+              <li><a href="#">Üyelik Sözleşmesi</a></li>
+              <li><a href="#">Gizlilik Politikası</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-life-ring"></i> Destek</h4>
+            <ul>
+              <li><a href="#">Yardım</a></li>
+              <li><a href="#">SSS</a></li>
+              <li><a href="#">Şikayet</a></li>
+              <li><a href="#">İletişim</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4><i class="fas fa-envelope"></i> İletişim</h4>
+            <p><i class="fas fa-envelope"></i> destek@okeymobil.com</p>
+            <p><i class="fas fa-phone"></i> +90 123 456 7890</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 OkeyMobil. Tüm hakları saklıdır.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/friends.js"></script>
+  </body>
+</html>
