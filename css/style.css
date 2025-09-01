@@ -30,6 +30,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    width: auto;
 }
 
 .btn-outline {
@@ -46,6 +47,8 @@ body {
 .btn-primary {
     background: #4a90e2;
     color: white;
+    width: 100%;
+    margin-top: 15px;
 }
 
 .btn-primary:hover {
@@ -69,10 +72,7 @@ body {
     background: #43a047;
 }
 
-.room-btn {
-    width: 100%;
-    margin-top: 15px;
-}
+
 
 /* Notification Bar */
 .notification-bar {
@@ -145,11 +145,7 @@ nav ul li a:hover {
     gap: 15px;
 }
 
-.language-selector select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+
 
 /* Hero Section */
 .hero {
@@ -212,30 +208,14 @@ nav ul li a:hover {
     margin-bottom: 15px;
 }
 
-.salon-details {
-    text-align: left;
-}
 
-.room-types {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.room-type {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 3px 8px;
-    border-radius: 3px;
-    font-size: 0.8rem;
-}
 
 .total-players {
     margin: 20px 0;
     font-size: 1.2rem;
 }
 
-.total-players #total-player-count,
-.total-players #total-player-count2 {
+.total-players #total-player-count {
     font-weight: bold;
     color: #ffcc00;
 }
@@ -466,53 +446,6 @@ nav ul li a:hover {
     font-weight: 600;
 }
 
-/* Features Section */
-.features {
-    padding: 60px 0;
-    background: #f0f8ff;
-}
-
-.features h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #4a90e2;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-}
-
-.feature-card {
-    text-align: center;
-    padding: 30px;
-    background: white;
-    border-radius: 10px;
-    border: 1px solid #cce6ff;
-    transition: transform 0.3s;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-}
-
-.feature-card i {
-    font-size: 2.5rem;
-    color: #4a90e2;
-    margin-bottom: 20px;
-}
-
-.feature-card h3 {
-    margin-bottom: 15px;
-    color: #4a90e2;
-}
-
 /* Community Section */
 .community {
     padding: 60px 0;
@@ -654,6 +587,53 @@ nav ul li a:hover {
     font-size: 1.5rem;
 }
 
+/* Features Section */
+.features {
+    padding: 60px 0;
+    background: #f0f8ff;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #4a90e2;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #cce6ff;
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card i {
+    font-size: 2.5rem;
+    color: #4a90e2;
+    margin-bottom: 20px;
+}
+
+.feature-card h3 {
+    margin-bottom: 15px;
+    color: #4a90e2;
+}
+
 /* Footer */
 footer {
     background: #333;
@@ -744,7 +724,7 @@ footer {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000;
@@ -848,7 +828,5 @@ footer {
         flex-wrap: wrap;
     }
     
-    .chat-input {
-        flex-direction: column;
-    }
+    
 }

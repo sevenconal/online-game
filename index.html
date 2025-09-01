@@ -18,9 +18,7 @@
       <div class="container">
         <p>
           <i class="fas fa-bullhorn"></i>
-          <span id="notification-text"
-            >Yeni Gold üyelik avantajları! Hemen inceleyin.</span
-          >
+          <span>Yeni Gold üyelik avantajları! Hemen inceleyin.</span>
         </p>
       </div>
     </div>
@@ -39,12 +37,6 @@
             <li>
               <a href="#"><i class="fas fa-sign-in-alt"></i> Çoklu Giriş</a>
             </li>
-            <li>
-              <a href="#"><i class="fas fa-dice"></i> Okey Oyna</a>
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-trophy"></i> Turnuvalar</a>
-            </li>
           </ul>
         </nav>
         <div class="user-actions">
@@ -57,7 +49,7 @@
     </header>
 
     <!-- Login/Register Modals -->
-    <div class="modal" id="login-modal" style="display: none">
+    <div class="modal" id="login-modal">
       <div class="modal-content">
         <div class="modal-header">
           <h3>Giriş Yap</h3>
@@ -74,7 +66,7 @@
               <input type="password" id="password" name="password" required />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary" style="width: 100%">
+              <button type="submit" class="btn btn-primary">
                 Giriş Yap
               </button>
             </div>
@@ -84,7 +76,7 @@
       </div>
     </div>
 
-    <div class="modal" id="register-modal" style="display: none">
+    <div class="modal" id="register-modal">
       <div class="modal-content">
         <div class="modal-header">
           <h3>Üye Ol</h3>
@@ -119,7 +111,7 @@
               />
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary" style="width: 100%">
+              <button type="submit" class="btn btn-primary">
                 Üye Ol
               </button>
             </div>
@@ -132,45 +124,34 @@
     <!-- Hero Section -->
     <section class="hero">
       <div class="container">
-        <h2>8 Oyunda <span id="total-player-count">282</span> Oyuncu</h2>
+        <h2>4 Oyunda <span>282</span> Oyuncu</h2>
         <p>
           4 Oyun Salonunda Okey, Batak, Tavla, Pişti, Banko, King, 101 ve Daha
           Fazlası
         </p>
         <div class="game-stats">
           <div class="stat-card">
-            <h3><i class="fas fa-dice"></i> 1. Okey Salonu</h3>
+            <h3><i class="fas fa-dice"></i> Okey Salonu</h3>
             <p class="player-count">72/400 Oyuncu</p>
-            <div class="salon-details">
-              <div class="room-types">
-                <span class="room-type">Okey 201</span>
-                <span class="room-type">Okey 101</span>
-                <span class="room-type">Seri Okey</span>
-              </div>
-            </div>
+
           </div>
           <div class="stat-card">
-            <h3><i class="fas fa-spade"></i> 2. Batak Salonu</h3>
+            <h3><i class="fas fa-spade"></i> Batak Salonu</h3>
             <p class="player-count">68/400 Oyuncu</p>
-            <div class="salon-details">
-              <div class="room-types">
-                <span class="room-type">İhaleli</span>
-                <span class="room-type">İhalesiz</span>
-              </div>
-            </div>
+
           </div>
           <div class="stat-card">
-            <h3><i class="fas fa-chess-board"></i> 3. Tavla Salonu</h3>
+            <h3><i class="fas fa-chess-board"></i> Tavla Salonu</h3>
             <p class="player-count">85/400 Oyuncu</p>
           </div>
           <div class="stat-card">
-            <h3><i class="fas fa-cards"></i> 4. Pişti Salonu</h3>
+            <h3><i class="fas fa-cards"></i> Pişti Salonu</h3>
             <p class="player-count">57/400 Oyuncu</p>
           </div>
         </div>
         <div class="total-players">
           <p>
-            Toplam <span id="total-player-count2">282</span> kişi 4 salonumuzda
+            Toplam <span>282</span> kişi 4 oyunumuzda
             okey, batak, tavla, pişti oynuyor
           </p>
         </div>
@@ -222,7 +203,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 100-1000</p>
                   <p><i class="fas fa-shield-alt"></i> Gold Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+                <button class="btn btn-primary">Odaya Katıl</button>
               </div>
               <div class="room-card">
                 <div class="room-header">
@@ -234,7 +215,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 50-500</p>
                   <p><i class="fas fa-user"></i> Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+                <button class="btn btn-primary">Odaya Katıl</button>
               </div>
               <div class="room-card">
                 <div class="room-header">
@@ -246,7 +227,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 200-2000</p>
                   <p><i class="fas fa-crown"></i> Sadece Gold</p>
                 </div>
-                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+                <button class="btn btn-primary">Odaya Katıl</button>
               </div>
             </div>
           </div>
@@ -264,7 +245,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 100-1000</p>
                   <p><i class="fas fa-user"></i> Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+                <button class="btn btn-primary">Odaya Katıl</button>
               </div>
               <div class="room-card">
                 <div class="room-header">
@@ -276,7 +257,7 @@
                   <p><i class="fas fa-coins"></i> Bahis: 50-500</p>
                   <p><i class="fas fa-user"></i> Üye Girişi</p>
                 </div>
-                <button class="btn btn-primary room-btn">Odaya Katıl</button>
+                <button class="btn btn-primary">Odaya Katıl</button>
               </div>
             </div>
           </div>
@@ -464,49 +445,6 @@
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features">
-      <div class="container">
-        <h2><i class="fas fa-star"></i> Neden OkeyMobil?</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <i class="fas fa-mobile-alt"></i>
-            <h3>Mobil Uyumluluk</h3>
-            <p>
-              PC, mobil ve tablet cihazlarınızda HTML5 teknolojisi ile oynayın.
-            </p>
-          </div>
-          <div class="feature-card">
-            <i class="fas fa-users"></i>
-            <h3>Sosyal Özellikler</h3>
-            <p>
-              Arkadaşlarınızla oynayın, sohbet edin ve sıralamalarda yer alın.
-            </p>
-          </div>
-          <div class="feature-card">
-            <i class="fas fa-gamepad"></i>
-            <h3>Çeşitli Oyunlar</h3>
-            <p>7 farklı oyun türü ile eğlencenin tadını çıkarın.</p>
-          </div>
-          <div class="feature-card">
-            <i class="fas fa-shield-alt"></i>
-            <h3>Güvenli Oyun</h3>
-            <p>Oyun oynarken adil ve güvenli bir ortam sağlıyoruz.</p>
-          </div>
-          <div class="feature-card">
-            <i class="fas fa-trophy"></i>
-            <h3>Turnuvalar</h3>
-            <p>Haftalık turnuvalar ile ödüllerin sahibi olun.</p>
-          </div>
-          <div class="feature-card">
-            <i class="fas fa-gift"></i>
-            <h3>Ödüller</h3>
-            <p>Oynadıkça kazanın, hediyeleri toplayın.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Community Section -->
     <section class="community">
       <div class="container">
@@ -514,7 +452,7 @@
         <div class="community-container">
           <div class="chat-preview">
             <h3><i class="fas fa-comment-dots"></i> Lobi Sohbeti</h3>
-            <div class="chat-messages" id="chat-messages">
+            <div class="chat-messages">
               <div class="message">
                 <span class="user">Oyuncu1:</span>
                 <span class="text">Herkese iyi akşamlar!</span>
@@ -529,8 +467,8 @@
               </div>
             </div>
             <div class="chat-input">
-              <input type="text" placeholder="Mesaj yaz..." id="chat-input" />
-              <button class="btn btn-primary" id="send-message-btn">
+              <input type="text" placeholder="Mesaj yaz..." />
+              <button class="btn btn-primary">
                 Gönder
               </button>
             </div>
@@ -558,7 +496,6 @@
         </div>
       </div>
     </section>
-
     <!-- Additional Info Section -->
     <section class="additional-info">
       <div class="container">

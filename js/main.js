@@ -12,8 +12,10 @@ function updatePlayerCounts() {
     });
     
     // Update total player count
-    document.getElementById('total-player-count').textContent = totalCount;
-    document.getElementById('total-player-count2').textContent = totalCount;
+    const totalPlayerCounts = document.querySelectorAll('h2 span, .total-players span');
+    totalPlayerCounts.forEach(span => {
+        span.textContent = totalCount;
+    });
 }
 
 // Modal functionality
@@ -84,6 +86,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Show register modal
+    if (registerBtn) {
+        registerBtn.addEventListener('click', function() {
+            registerModal.style.display = 'flex';
+        });
+    }
+    
+    // Close login modal
+    if (closeLogin) {
+        closeLogin.addEventListener('click', function() {
+            loginModal.style.display = 'none';
+        });
+    }
+    
+    // Close register modal
+    if (closeRegister) {
+        closeRegister.addEventListener('click', function() {
+            registerModal.style.display = 'none';
+        });
+    }
+    
+    
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+        modals.forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+    
+    
+    
     // Login form submission
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
@@ -113,18 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add hover effects to room cards
     const roomCards = document.querySelectorAll('.room-card');
     roomCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // Add hover effects to feature cards
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
         });
@@ -190,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ];
             
             const randomNotification = notifications[Math.floor(Math.random() * notifications.length)];
-            document.getElementById('notification-text').textContent = randomNotification;
+            document.querySelector('.notification-bar span').textContent = randomNotification;
         }, 15000);
     }
 });
