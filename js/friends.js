@@ -102,39 +102,55 @@ document.addEventListener("DOMContentLoaded", function () {
     ],
   };
 
+  // Function to sanitize HTML content
+  function sanitizeHTML(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
   // Function to render messages for a friend
   function renderMessages(friendName) {
-    const messages = friendMessages[friendName] || [];
-    dmMessages.innerHTML = "";
+    try {
+      const messages = friendMessages[friendName] || [];
+      dmMessages.innerHTML = "";
 
-    messages.forEach((message) => {
-      const messageDiv = document.createElement("div");
-      messageDiv.className = `message ${message.type}`;
+      messages.forEach((message) => {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `message ${message.type}`;
 
-      if (message.type === "received") {
-        messageDiv.innerHTML = `
-                    <div class="message-avatar">
-                        <img src="${message.avatar}" alt="${friendName}" />
-                    </div>
-                    <div class="message-content">
-                        <div class="message-text">${message.text}</div>
-                        <div class="message-time">${message.time}</div>
-                    </div>
-                `;
-      } else {
-        messageDiv.innerHTML = `
-                    <div class="message-content">
-                        <div class="message-text">${message.text}</div>
-                        <div class="message-time">${message.time}</div>
-                    </div>
-                `;
-      }
+        // Sanitize user input to prevent XSS
+        const safeText = sanitizeHTML(message.text);
+        const safeTime = sanitizeHTML(message.time);
+        const safeFriendName = sanitizeHTML(friendName);
 
-      dmMessages.appendChild(messageDiv);
-    });
+        if (message.type === "received") {
+          messageDiv.innerHTML = `
+                      <div class="message-avatar">
+                          <img src="${message.avatar}" alt="${safeFriendName} avatar" />
+                      </div>
+                      <div class="message-content">
+                          <div class="message-text">${safeText}</div>
+                          <div class="message-time">${safeTime}</div>
+                      </div>
+                  `;
+        } else {
+          messageDiv.innerHTML = `
+                      <div class="message-content">
+                          <div class="message-text">${safeText}</div>
+                          <div class="message-time">${safeTime}</div>
+                      </div>
+                  `;
+        }
 
-    // Scroll to bottom
-    dmMessages.scrollTop = dmMessages.scrollHeight;
+        dmMessages.appendChild(messageDiv);
+      });
+
+      // Scroll to bottom
+      dmMessages.scrollTop = dmMessages.scrollTop;
+    } catch (error) {
+      console.error("Mesaj render ederken hata:", error);
+    }
   }
 
   // Function to update chat header
@@ -172,68 +188,117 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Send message function
+  // Rate limiting for message sending
+  let lastMessageTime = 0;
+  const MESSAGE_COOLDOWN = 1000; // 1 second cooldown
+
+  // Send message function with security improvements
   function sendMessage() {
-    const messageText = dmInput.value.trim();
-    if (messageText === "") return;
+    try {
+      const messageText = dmInput.value.trim();
 
-    // Add message to current friend's messages
-    if (!friendMessages[activeFriend]) {
-      friendMessages[activeFriend] = [];
-    }
+      // Input validation
+      if (!messageText || messageText === "") {
+        return;
+      }
 
-    const now = new Date();
-    const timeString =
-      now.getHours().toString().padStart(2, "0") +
-      ":" +
-      now.getMinutes().toString().padStart(2, "0");
+      // Rate limiting
+      const now = Date.now();
+      if (now - lastMessageTime < MESSAGE_COOLDOWN) {
+        alert("Çok hızlı mesaj gönderiyorsunuz. Lütfen biraz bekleyin.");
+        return;
+      }
+      lastMessageTime = now;
 
-    friendMessages[activeFriend].push({
-      type: "sent",
-      text: messageText,
-      time: timeString,
-    });
+      // Message length validation
+      if (messageText.length > 500) {
+        alert("Mesaj çok uzun! Maksimum 500 karakter.");
+        return;
+      }
 
-    // Render messages
-    renderMessages(activeFriend);
-
-    // Clear input
-    dmInput.value = "";
-
-    // Simulate response after 2-5 seconds
-    setTimeout(() => {
-      const responses = [
-        "Anladım, devam edelim!",
-        "Harika fikir!",
-        "Tamam, öyle yapalım.",
-        "Katılıyorum!",
-        "Bekle, bir düşüneyim...",
-        "Evet, başlayalım!",
-        "İyi oldu bu.",
-        "Teşekkürler!",
-        "😊",
-        "👍",
+      // Basic XSS prevention (additional to sanitizeHTML)
+      const suspiciousPatterns = [
+        /<script/i,
+        /javascript:/i,
+        /on\w+\s*=/i,
+        /<iframe/i,
+        /<object/i,
       ];
 
-      const randomResponse =
-        responses[Math.floor(Math.random() * responses.length)];
-      const friendItem = document.querySelector(
-        `[data-friend="${activeFriend}"]`
-      );
-      const avatar = friendItem.querySelector(".friend-avatar img").src;
+      for (const pattern of suspiciousPatterns) {
+        if (pattern.test(messageText)) {
+          alert("Güvenlik nedeniyle bu mesaj gönderilemez.");
+          return;
+        }
+      }
+
+      // Add message to current friend's messages
+      if (!friendMessages[activeFriend]) {
+        friendMessages[activeFriend] = [];
+      }
+
+      const timeString =
+        new Date().getHours().toString().padStart(2, "0") +
+        ":" +
+        new Date().getMinutes().toString().padStart(2, "0");
 
       friendMessages[activeFriend].push({
-        type: "received",
-        text: randomResponse,
-        time:
-          new Date().getHours().toString().padStart(2, "0") +
-          ":" +
-          new Date().getMinutes().toString().padStart(2, "0"),
-        avatar: avatar,
+        type: "sent",
+        text: messageText,
+        time: timeString,
       });
 
+      // Render messages
       renderMessages(activeFriend);
-    }, Math.random() * 3000 + 2000);
+
+      // Clear input
+      dmInput.value = "";
+
+      // Simulate response after 2-5 seconds
+      setTimeout(() => {
+        try {
+          const responses = [
+            "Anladım, devam edelim!",
+            "Harika fikir!",
+            "Tamam, öyle yapalım.",
+            "Katılıyorum!",
+            "Bekle, bir düşüneyim...",
+            "Evet, başlayalım!",
+            "İyi oldu bu.",
+            "Teşekkürler!",
+            "😊",
+            "👍",
+          ];
+
+          const randomResponse =
+            responses[Math.floor(Math.random() * responses.length)];
+          const friendItem = document.querySelector(
+            `[data-friend="${activeFriend}"]`
+          );
+
+          if (friendItem) {
+            const avatar = friendItem.querySelector(".friend-avatar img").src;
+
+            friendMessages[activeFriend].push({
+              type: "received",
+              text: randomResponse,
+              time:
+                new Date().getHours().toString().padStart(2, "0") +
+                ":" +
+                new Date().getMinutes().toString().padStart(2, "0"),
+              avatar: avatar,
+            });
+
+            renderMessages(activeFriend);
+          }
+        } catch (error) {
+          console.error("Otomatik yanıt gönderirken hata:", error);
+        }
+      }, Math.random() * 3000 + 2000);
+    } catch (error) {
+      console.error("Mesaj gönderirken hata:", error);
+      alert("Mesaj gönderilirken bir hata oluştu!");
+    }
   }
 
   // Send message on button click
@@ -246,13 +311,61 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Add friend button
+  // Add friend button with security improvements
   addFriendBtn.addEventListener("click", function () {
-    const friendName = prompt(
-      "Arkadaş eklemek istediğiniz kişinin kullanıcı adını girin:"
-    );
-    if (friendName && friendName.trim() !== "") {
-      alert(`${friendName} kişisine arkadaşlık isteği gönderildi!`);
+    try {
+      const friendName = prompt(
+        "Arkadaş eklemek istediğiniz kişinin kullanıcı adını girin:"
+      );
+
+      // Input validation
+      if (!friendName) {
+        return;
+      }
+
+      const trimmedName = friendName.trim();
+
+      if (trimmedName === "") {
+        alert("Kullanıcı adı boş olamaz!");
+        return;
+      }
+
+      // Username validation (only letters, numbers, underscore, dash)
+      const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+      if (!usernameRegex.test(trimmedName)) {
+        alert(
+          "Kullanıcı adı sadece harf, rakam, alt çizgi ve tire içerebilir!"
+        );
+        return;
+      }
+
+      // Length validation
+      if (trimmedName.length < 3 || trimmedName.length > 20) {
+        alert("Kullanıcı adı 3-20 karakter arasında olmalıdır!");
+        return;
+      }
+
+      // Prevent self-addition
+      if (trimmedName.toLowerCase() === activeFriend.toLowerCase()) {
+        alert("Kendinizi arkadaş olarak ekleyemezsiniz!");
+        return;
+      }
+
+      // Check if already friends
+      const existingFriend = friendItems.some(
+        (item) =>
+          item.dataset.friend.toLowerCase() === trimmedName.toLowerCase()
+      );
+
+      if (existingFriend) {
+        alert("Bu kişi zaten arkadaşınız!");
+        return;
+      }
+
+      alert(`${trimmedName} kişisine arkadaşlık isteği gönderildi!`);
+    } catch (error) {
+      console.error("Arkadaş ekleme işleminde hata:", error);
+      alert("Arkadaş ekleme sırasında bir hata oluştu!");
     }
   });
 

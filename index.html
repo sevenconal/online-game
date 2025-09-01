@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Online okey, batak, tavla, pişti oynayın. Türkiye'nin en büyük online oyun platformu. Ücretsiz kayıt olun, arkadaşlarınızla oynayın."
+    />
+    <meta
+      name="keywords"
+      content="okey, batak, tavla, pişti, online oyun, multiplayer, türk oyunları"
+    />
+    <meta name="author" content="OkeyMobil" />
     <title>OkeyMobil - Online Okey, Batak, Tavla, Pişti Oyna</title>
     <link rel="stylesheet" href="css/style.css" />
     <link
@@ -11,6 +20,9 @@
     />
   </head>
   <body>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Ana içeriğe geç</a>
+
     <!-- Top Notification Bar -->
     <div class="notification-bar">
       <div class="container">
@@ -31,66 +43,153 @@
             >
           </h1>
         </div>
-        <nav>
+        <nav role="navigation" aria-label="Ana navigasyon">
           <ul>
             <li>
-              <a href="#"><i class="fas fa-home"></i> Ana Sayfa</a>
+              <a href="#" aria-label="Ana sayfaya git"
+                ><i class="fas fa-home"></i> Ana Sayfa</a
+              >
             </li>
             <li>
-              <a href="#"><i class="fas fa-sign-in-alt"></i> Çoklu Giriş</a>
+              <a href="#" aria-label="Çoklu giriş sayfasına git"
+                ><i class="fas fa-sign-in-alt"></i> Çoklu Giriş</a
+              >
             </li>
           </ul>
         </nav>
         <div class="user-actions">
           <div class="auth-buttons">
-            <button class="btn btn-outline" id="login-btn">Giriş Yap</button>
-            <button class="btn btn-primary" id="register-btn">Üye Ol</button>
+            <button
+              class="btn btn-outline"
+              id="login-btn"
+              aria-label="Giriş yapmak için tıklayın"
+            >
+              Giriş Yap
+            </button>
+            <button
+              class="btn btn-primary"
+              id="register-btn"
+              aria-label="Yeni üyelik oluşturmak için tıklayın"
+            >
+              Üye Ol
+            </button>
           </div>
         </div>
       </div>
     </header>
 
     <!-- Login/Register Modals -->
-    <div class="modal" id="login-modal">
+    <div
+      class="modal"
+      id="login-modal"
+      role="dialog"
+      aria-labelledby="login-title"
+      aria-hidden="true"
+    >
       <div class="modal-content">
         <div class="modal-header">
-          <h3>Giriş Yap</h3>
-          <span class="close-modal" id="close-login">&times;</span>
+          <h3 id="login-title">Giriş Yap</h3>
+          <span
+            class="close-modal"
+            id="close-login"
+            aria-label="Giriş modalını kapat"
+            role="button"
+            tabindex="0"
+            >&times;</span
+          >
         </div>
         <div class="modal-body">
-          <form id="login-form">
+          <form id="login-form" role="form" aria-label="Giriş formu">
             <div class="form-group">
               <label for="username">Kullanıcı Adı</label>
-              <input type="text" id="username" name="username" required />
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                aria-describedby="username-help"
+              />
+              <small id="username-help" class="sr-only"
+                >Kullanıcı adınızı girin</small
+              >
             </div>
             <div class="form-group">
               <label for="password">Şifre</label>
-              <input type="password" id="password" name="password" required />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                aria-describedby="password-help"
+              />
+              <small id="password-help" class="sr-only">Şifrenizi girin</small>
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Giriş Yap</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                aria-label="Giriş yapmak için gönder"
+              >
+                Giriş Yap
+              </button>
             </div>
           </form>
-          <p>Üye değil misiniz? <a href="#" id="show-register">Üye Ol</a></p>
+          <p>
+            Üye değil misiniz?
+            <a href="#" id="show-register" aria-label="Üye olma modalını aç"
+              >Üye Ol</a
+            >
+          </p>
         </div>
       </div>
     </div>
 
-    <div class="modal" id="register-modal">
+    <div
+      class="modal"
+      id="register-modal"
+      role="dialog"
+      aria-labelledby="register-title"
+      aria-hidden="true"
+    >
       <div class="modal-content">
         <div class="modal-header">
-          <h3>Üye Ol</h3>
-          <span class="close-modal" id="close-register">&times;</span>
+          <h3 id="register-title">Üye Ol</h3>
+          <span
+            class="close-modal"
+            id="close-register"
+            aria-label="Üye olma modalını kapat"
+            role="button"
+            tabindex="0"
+            >&times;</span
+          >
         </div>
         <div class="modal-body">
-          <form id="register-form">
+          <form id="register-form" role="form" aria-label="Üye olma formu">
             <div class="form-group">
               <label for="reg-username">Kullanıcı Adı</label>
-              <input type="text" id="reg-username" name="username" required />
+              <input
+                type="text"
+                id="reg-username"
+                name="username"
+                required
+                aria-describedby="reg-username-help"
+              />
+              <small id="reg-username-help" class="sr-only"
+                >Kullanıcı adınızı girin (en az 3 karakter)</small
+              >
             </div>
             <div class="form-group">
               <label for="reg-email">E-posta</label>
-              <input type="email" id="reg-email" name="email" required />
+              <input
+                type="email"
+                id="reg-email"
+                name="email"
+                required
+                aria-describedby="reg-email-help"
+              />
+              <small id="reg-email-help" class="sr-only"
+                >Geçerli bir e-posta adresi girin</small
+              >
             </div>
             <div class="form-group">
               <label for="reg-password">Şifre</label>
@@ -99,7 +198,11 @@
                 id="reg-password"
                 name="password"
                 required
+                aria-describedby="reg-password-help"
               />
+              <small id="reg-password-help" class="sr-only"
+                >Şifrenizi girin (en az 6 karakter)</small
+              >
             </div>
             <div class="form-group">
               <label for="reg-password-confirm">Şifre Tekrar</label>
@@ -108,19 +211,34 @@
                 id="reg-password-confirm"
                 name="password-confirm"
                 required
+                aria-describedby="reg-password-confirm-help"
               />
+              <small id="reg-password-confirm-help" class="sr-only"
+                >Şifrenizi tekrar girin</small
+              >
             </div>
             <div class="form-group">
-              <button type="submit" class="btn btn-primary">Üye Ol</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                aria-label="Üyelik oluşturmak için gönder"
+              >
+                Üye Ol
+              </button>
             </div>
           </form>
-          <p>Zaten üye misiniz? <a href="#" id="show-login">Giriş Yap</a></p>
+          <p>
+            Zaten üye misiniz?
+            <a href="#" id="show-login" aria-label="Giriş modalını aç"
+              >Giriş Yap</a
+            >
+          </p>
         </div>
       </div>
     </div>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="main-content">
       <div class="container">
         <h2>4 Oyunda <span>282</span> Oyuncu</h2>
         <p>4 Oyun Salonunda Okey, Batak, Tavla, Pişti Oynayın</p>
@@ -132,6 +250,7 @@
               href="okey-salonlari.html"
               class="btn btn-primary"
               style="width: 100%; margin-top: 15px"
+              aria-label="Okey salonlarına git"
               >Salonlara Git</a
             >
           </div>
@@ -142,6 +261,7 @@
               href="batak-salonlari.html"
               class="btn btn-primary"
               style="width: 100%; margin-top: 15px"
+              aria-label="Batak salonlarına git"
               >Salonlara Git</a
             >
           </div>
@@ -152,6 +272,7 @@
               href="tavla-salonlari.html"
               class="btn btn-primary"
               style="width: 100%; margin-top: 15px"
+              aria-label="Tavla salonlarına git"
               >Salonlara Git</a
             >
           </div>
@@ -162,6 +283,7 @@
               href="pisti-salonlari.html"
               class="btn btn-primary"
               style="width: 100%; margin-top: 15px"
+              aria-label="Pişti salonlarına git"
               >Salonlara Git</a
             >
           </div>
@@ -172,8 +294,12 @@
             oynuyor
           </p>
         </div>
-        <button class="btn btn-large" id="quick-play-btn">
-          Hemen Oyna <i class="fas fa-play"></i>
+        <button
+          class="btn btn-large"
+          id="quick-play-btn"
+          aria-label="Rastgele bir oyun salonuna git"
+        >
+          Hemen Oyna <i class="fas fa-play" aria-hidden="true"></i>
         </button>
       </div>
     </section>
