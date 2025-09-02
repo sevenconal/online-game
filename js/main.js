@@ -387,19 +387,164 @@ function initializeNavigation() {
  */
 document.addEventListener("DOMContentLoaded", function () {
   try {
-    // Initialize all modules
-    initializeModals();
-    initializeUIInteractions();
-    initializeChatSystem();
-    initializeNotificationSystem();
-    initializeNavigation();
+    // Load API modules
+    loadAPIScripts();
 
-    // Initialize player counts
-    updatePlayerCounts();
-    setInterval(updatePlayerCounts, 5000);
+    // Initialize all modules after API scripts are loaded
+    setTimeout(() => {
+      initializeModals();
+      initializeUIInteractions();
+      initializeChatSystem();
+      initializeNotificationSystem();
+      initializeNavigation();
 
-    console.log("OkeyMobil uygulaması başarıyla başlatıldı!");
+      // Initialize player counts
+      updatePlayerCounts();
+      setInterval(updatePlayerCounts, 5000);
+
+      console.log("OkeyMobil uygulaması başarıyla başlatıldı!");
+    }, 100);
   } catch (error) {
     console.error("Uygulama başlatılırken genel hata:", error);
   }
 });
+
+/**
+ * Load API scripts dynamically
+ */
+function loadAPIScripts() {
+  const scripts = [
+    "js/api/index.js",
+    "js/api/auth.js",
+    "js/api/rooms.js",
+    "js/api/users.js",
+  ];
+
+  scripts.forEach((scriptPath) => {
+    const script = document.createElement("script");
+    script.src = scriptPath;
+    script.defer = true;
+    document.head.appendChild(script);
+  });
+}
+
+// ==========================================
+// FORM HANDLERS WITH API INTEGRATION
+// ==========================================
+
+/**
+ * Initialize form handlers after API scripts are loaded
+ */
+function initializeFormHandlers() {
+  // Login form submission with API integration
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", async function (e) {
+      try {
+        e.preventDefault();
+
+        const email = document.getElementById("username")?.value; // Using username field for email
+        const password = document.getElementById("password")?.value;
+
+        // Basic validation
+        if (!email || !password) {
+          alert("Lütfen email ve şifrenizi girin!");
+          return;
+        }
+
+        // Show loading state
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Giriş yapılıyor...";
+        submitBtn.disabled = true;
+
+        // API call
+        const response = await AuthAPI.login({ email, password });
+
+        if (response.success) {
+          alert("Giriş başarılı! Hoş geldiniz!");
+          const loginModal = document.getElementById("login-modal");
+          if (loginModal) {
+            loginModal.style.display = "none";
+          }
+          // Refresh page to update UI with logged in state
+          window.location.reload();
+        } else {
+          alert(response.error || "Giriş başarısız!");
+        }
+
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      } catch (error) {
+        console.error("Login form submission hatası:", error);
+        alert("Giriş işlemi sırasında bir hata oluştu!");
+      }
+    });
+  }
+
+  // Register form submission with API integration
+  const registerForm = document.getElementById("register-form");
+  if (registerForm) {
+    registerForm.addEventListener("submit", async function (e) {
+      try {
+        e.preventDefault();
+
+        const username = document.getElementById("reg-username")?.value;
+        const email = document.getElementById("reg-email")?.value;
+        const password = document.getElementById("reg-password")?.value;
+        const confirmPassword = document.getElementById(
+          "reg-password-confirm"
+        )?.value;
+
+        // Basic validation
+        if (!username || !email || !password || !confirmPassword) {
+          alert("Lütfen tüm alanları doldurun!");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("Şifreler eşleşmiyor!");
+          return;
+        }
+
+        // Show loading state
+        const submitBtn = registerForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Kayıt ediliyor...";
+        submitBtn.disabled = true;
+
+        // API call
+        const response = await AuthAPI.register({
+          username,
+          email,
+          password,
+          confirmPassword,
+        });
+
+        if (response.success) {
+          alert("Kayıt başarılı! Otomatik giriş yapılıyor...");
+          const registerModal = document.getElementById("register-modal");
+          if (registerModal) {
+            registerModal.style.display = "none";
+          }
+          // Page will reload after successful login
+        } else {
+          alert(response.error || "Kayıt başarısız!");
+        }
+
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      } catch (error) {
+        console.error("Register form submission hatası:", error);
+        alert("Kayıt işlemi sırasında bir hata oluştu!");
+      }
+    });
+  }
+}
+
+// Initialize form handlers after API scripts are loaded
+setTimeout(() => {
+  initializeFormHandlers();
+}, 200);
