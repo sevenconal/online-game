@@ -1,4 +1,4 @@
-# 🎮 OkeyMobil - Online Okey Platformu
+# 🎮 OkeyOnline - Online Okey Platformu
 
 Türk oyunları (Okey, Batak, Tavla, Pişti) oynayabileceğiniz modern, full-stack online oyun platformu.
 
@@ -22,8 +22,8 @@ Türk oyunları (Okey, Batak, Tavla, Pişti) oynayabileceğiniz modern, full-sta
 ### 1. Projeyi Klonlayın
 
 ```bash
-git clone https://github.com/yourusername/okeymobil.git
-cd okeymobil
+git clone https://github.com/sevenconal/online-game.git
+cd online-game
 ```
 
 ### 2. Bağımlılıkları Yükleyin

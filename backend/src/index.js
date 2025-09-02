@@ -17,7 +17,7 @@ app.use(express.json()); // JSON parse için
 app.get("/health", (req, res) => {
   res.json({
     status: "OK",
-    message: "OkeyMobil Backend API is running",
+    message: "OkeyOnline Backend API is running",
     timestamp: new Date().toISOString(),
     version: "1.0.0",
   });
