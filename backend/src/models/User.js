@@ -147,6 +147,6 @@ userSchema.statics.findByUsernameOrEmail = function (identifier) {
   });
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema, "okeyonline_users");
 
 export default User;

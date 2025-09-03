@@ -11,7 +11,7 @@ const connectDB = async () => {
     const conn = await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      dbName: "okeymobil", // Database adı burada belirtiliyor
+      dbName: "okeyonline", // Database adı burada belirtiliyor
     });
 
     console.log(`🍃 MongoDB Connected: ${conn.connection.host}`);

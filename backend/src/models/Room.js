@@ -268,6 +268,6 @@ roomSchema.statics.findUserRooms = function (userId) {
   }).populate("players", "username avatar");
 };
 
-const Room = mongoose.model("Room", roomSchema);
+const Room = mongoose.model("Room", roomSchema, "okeyonline_rooms");
 
 export default Room;
