@@ -115,9 +115,89 @@ io.on("connection", (socket) => {
     }
   });
 
+  // Handle chat messages
+  socket.on("send-message", async (data) => {
+    try {
+      const { roomId, message, timestamp } = data;
+
+      if (!roomId || !message) {
+        socket.emit("error", { message: "Room ID and message are required" });
+        return;
+      }
+
+      // Validate message length
+      if (message.length > 500) {
+        socket.emit("error", {
+          message: "Message too long (max 500 characters)",
+        });
+        return;
+      }
+
+      // Create message object
+      const chatMessage = {
+        id: Date.now() + Math.random(),
+        userId: socket.userId,
+        username: socket.username,
+        roomId: roomId,
+        message: message.trim(),
+        timestamp: timestamp || new Date(),
+        type: "message",
+      };
+
+      console.log(
+        `💬 Message from ${socket.username} in room ${roomId}: ${message}`
+      );
+
+      // Broadcast message to room
+      io.to(roomId).emit("new-message", chatMessage);
+
+      // Also emit to sender for confirmation
+      socket.emit("message-sent", chatMessage);
+    } catch (error) {
+      console.error("Send message error:", error);
+      socket.emit("error", { message: "Failed to send message" });
+    }
+  });
+
+  // Handle typing indicators
+  socket.on("typing-start", (data) => {
+    try {
+      const { roomId } = data;
+      socket.to(roomId).emit("user-typing", {
+        userId: socket.userId,
+        username: socket.username,
+        isTyping: true,
+      });
+    } catch (error) {
+      console.error("Typing start error:", error);
+    }
+  });
+
+  socket.on("typing-stop", (data) => {
+    try {
+      const { roomId } = data;
+      socket.to(roomId).emit("user-typing", {
+        userId: socket.userId,
+        username: socket.username,
+        isTyping: false,
+      });
+    } catch (error) {
+      console.error("Typing stop error:", error);
+    }
+  });
+
   // Handle disconnection
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.username} (${socket.userId})`);
+
+    // Notify room about user leaving
+    if (socket.currentRoom) {
+      socket.to(socket.currentRoom).emit("user-left", {
+        userId: socket.userId,
+        username: socket.username,
+        timestamp: new Date(),
+      });
+    }
   });
 
   // Handle connection errors

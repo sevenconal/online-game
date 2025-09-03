@@ -226,18 +226,28 @@
             <div class="chat-container">
               <div class="chat-messages" id="chat-messages">
                 <div class="message">
-                  <span class="user">Oyuncu1:</span>
+                  <div class="message-header">
+                    <span class="user">Oyuncu1</span>
+                    <span class="timestamp">14:30</span>
+                  </div>
                   <span class="text">Herkese iyi akşamlar!</span>
                 </div>
                 <div class="message">
-                  <span class="user">Oyuncu2:</span>
+                  <div class="message-header">
+                    <span class="user">Oyuncu2</span>
+                    <span class="timestamp">14:31</span>
+                  </div>
                   <span class="text">Pişti odasında kimler var?</span>
                 </div>
                 <div class="message">
-                  <span class="user">Oyuncu3:</span>
+                  <div class="message-header">
+                    <span class="user">Oyuncu3</span>
+                    <span class="timestamp">14:32</span>
+                  </div>
                   <span class="text">Ben varım, gelin birlikte oynayalım</span>
                 </div>
               </div>
+              <div id="typing-indicator"></div>
               <div class="chat-input">
                 <input type="text" placeholder="Mesaj yaz..." id="chat-input" />
                 <button class="btn btn-primary" id="send-message-btn">

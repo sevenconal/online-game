@@ -631,6 +631,11 @@ function setupSocketEventListeners(socketManager) {
     addMessageToChat(data);
   });
 
+  socketManager.on("user-typing", (data) => {
+    console.log("⌨️ User typing:", data);
+    handleTypingIndicator(data);
+  });
+
   // Game events
   socketManager.on("game-state-update", (data) => {
     console.log("🎮 Game state update:", data);
@@ -760,17 +765,36 @@ function addMessageToChat(data) {
     if (chatMessages) {
       const newMessage = document.createElement("div");
       newMessage.className = "message";
+
+      // Format timestamp
+      const timestamp = new Date(data.timestamp);
+      const timeString = timestamp.toLocaleTimeString("tr-TR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
       newMessage.innerHTML = `
-        <span class="user">${data.username || data.userId}:</span>
+        <div class="message-header">
+          <span class="user">${data.username || data.userId}</span>
+          <span class="timestamp">${timeString}</span>
+        </div>
         <span class="text">${data.message}</span>
       `;
 
       chatMessages.appendChild(newMessage);
       chatMessages.scrollTop = chatMessages.scrollHeight;
 
-      // Remove old messages if too many
-      if (chatMessages.children.length > 50) {
+      // Add visual feedback for new messages
+      newMessage.style.animation = "fadeIn 0.3s ease-in";
+
+      // Remove old messages if too many (keep last 100)
+      if (chatMessages.children.length > 100) {
         chatMessages.removeChild(chatMessages.firstChild);
+      }
+
+      // Show notification for new messages
+      if (document.hidden) {
+        showNotification(`Yeni mesaj: ${data.username}`, "info");
       }
     }
   } catch (error) {
@@ -867,14 +891,7 @@ function enableRoomFeatures(roomId) {
     // Add chat message handler
     if (chatInput && sendButton) {
       const sendMessage = () => {
-        const message = chatInput.value.trim();
-        if (message) {
-          // Send via socket
-          if (window.socketManager) {
-            window.socketManager.sendMessage(message);
-            chatInput.value = "";
-          }
-        }
+        sendChatMessage();
       };
 
       sendButton.addEventListener("click", sendMessage);
@@ -884,8 +901,114 @@ function enableRoomFeatures(roomId) {
         }
       });
     }
+
+    // Initialize typing indicators
+    initializeTypingIndicators();
   } catch (error) {
     console.error("Enable room features error:", error);
+  }
+}
+
+/**
+ * Handle typing indicators
+ */
+function handleTypingIndicator(data) {
+  try {
+    const typingIndicator = document.getElementById("typing-indicator");
+    if (typingIndicator) {
+      if (data.isTyping) {
+        typingIndicator.textContent = `${data.username} yazıyor...`;
+        typingIndicator.style.display = "block";
+      } else {
+        typingIndicator.style.display = "none";
+      }
+    }
+  } catch (error) {
+    console.error("Typing indicator error:", error);
+  }
+}
+
+/**
+ * Send chat message
+ */
+function sendChatMessage() {
+  try {
+    const chatInput = document.getElementById("chat-input");
+    if (!chatInput) return;
+
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // Check if socket is connected
+    if (
+      !window.socketManager ||
+      !window.socketManager.getStatus().isConnected
+    ) {
+      showNotification("Socket bağlantısı yok!", "error");
+      return;
+    }
+
+    // Send message via socket
+    const success = window.socketManager.sendMessage(message);
+    if (success) {
+      chatInput.value = "";
+      console.log("💬 Message sent:", message);
+    } else {
+      showNotification("Mesaj gönderilemedi!", "error");
+    }
+  } catch (error) {
+    console.error("Send chat message error:", error);
+    showNotification("Mesaj gönderme hatası!", "error");
+  }
+}
+
+/**
+ * Initialize typing indicators
+ */
+function initializeTypingIndicators() {
+  try {
+    const chatInput = document.getElementById("chat-input");
+    if (!chatInput) return;
+
+    let typingTimeout;
+
+    chatInput.addEventListener("input", () => {
+      if (
+        !window.socketManager ||
+        !window.socketManager.getStatus().isConnected
+      )
+        return;
+
+      // Clear previous timeout
+      clearTimeout(typingTimeout);
+
+      // Send typing start
+      if (window.socketManager.socket) {
+        window.socketManager.socket.emit("typing-start", {
+          roomId: window.socketManager.getStatus().currentRoom,
+        });
+      }
+
+      // Send typing stop after 1 second of no input
+      typingTimeout = setTimeout(() => {
+        if (window.socketManager.socket) {
+          window.socketManager.socket.emit("typing-stop", {
+            roomId: window.socketManager.getStatus().currentRoom,
+          });
+        }
+      }, 1000);
+    });
+
+    // Send typing stop when input loses focus
+    chatInput.addEventListener("blur", () => {
+      if (window.socketManager.socket) {
+        window.socketManager.socket.emit("typing-stop", {
+          roomId: window.socketManager.getStatus().currentRoom,
+        });
+      }
+    });
+  } catch (error) {
+    console.error("Initialize typing indicators error:", error);
   }
 }
 
