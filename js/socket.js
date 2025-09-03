@@ -1,6 +1,9 @@
 // Socket.io Client for OkeyOnline
 // Real-time communication with backend
 
+// Import Socket.io client
+import io from "socket.io-client";
+
 class SocketManager {
   constructor() {
     this.socket = null;
