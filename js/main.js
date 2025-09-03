@@ -25,8 +25,14 @@ function updatePlayerCounts() {
     totalPlayerCounts.forEach((span) => {
       span.textContent = totalCount;
     });
+
+    window.logger.debug("Player counts updated successfully", { totalCount });
   } catch (error) {
-    console.error("Player counts güncellenirken hata:", error);
+    window.logger.error(
+      "Player counts güncellenirken hata",
+      error,
+      "updatePlayerCounts"
+    );
   }
 }
 
@@ -35,10 +41,12 @@ function updatePlayerCounts() {
 // ==========================================
 
 /**
- * Initialize modal functionality
+ * Initialize modal functionality with enhanced error handling
  */
 function initializeModals() {
   try {
+    window.logger.info("Initializing modal functionality");
+
     // Get modal elements with null checks
     const loginModal = document.getElementById("login-modal");
     const registerModal = document.getElementById("register-modal");
@@ -54,9 +62,15 @@ function initializeModals() {
       loginBtn.addEventListener("click", function () {
         try {
           loginModal.style.display = "flex";
+          window.logger.debug("Login modal opened");
         } catch (error) {
-          console.error("Login modal açılırken hata:", error);
+          window.logger.error("Login modal açılırken hata", error, "modal");
         }
+      });
+    } else {
+      window.logger.warn("Login modal elements not found", {
+        loginBtn: !!loginBtn,
+        loginModal: !!loginModal,
       });
     }
 
@@ -65,9 +79,15 @@ function initializeModals() {
       registerBtn.addEventListener("click", function () {
         try {
           registerModal.style.display = "flex";
+          window.logger.debug("Register modal opened");
         } catch (error) {
-          console.error("Register modal açılırken hata:", error);
+          window.logger.error("Register modal açılırken hata", error, "modal");
         }
+      });
+    } else {
+      window.logger.warn("Register modal elements not found", {
+        registerBtn: !!registerBtn,
+        registerModal: !!registerModal,
       });
     }
 
@@ -76,8 +96,9 @@ function initializeModals() {
       closeLogin.addEventListener("click", function () {
         try {
           loginModal.style.display = "none";
+          window.logger.debug("Login modal closed");
         } catch (error) {
-          console.error("Login modal kapanırken hata:", error);
+          window.logger.error("Login modal kapanırken hata", error, "modal");
         }
       });
     }
@@ -87,8 +108,9 @@ function initializeModals() {
       closeRegister.addEventListener("click", function () {
         try {
           registerModal.style.display = "none";
+          window.logger.debug("Register modal closed");
         } catch (error) {
-          console.error("Register modal kapanırken hata:", error);
+          window.logger.error("Register modal kapanırken hata", error, "modal");
         }
       });
     }
@@ -100,8 +122,9 @@ function initializeModals() {
           e.preventDefault();
           loginModal.style.display = "none";
           registerModal.style.display = "flex";
+          window.logger.debug("Switched to register modal");
         } catch (error) {
-          console.error("Modal geçişinde hata:", error);
+          window.logger.error("Modal geçişinde hata", error, "modal");
         }
       });
     }
@@ -113,8 +136,9 @@ function initializeModals() {
           e.preventDefault();
           registerModal.style.display = "none";
           loginModal.style.display = "flex";
+          window.logger.debug("Switched to login modal");
         } catch (error) {
-          console.error("Modal geçişinde hata:", error);
+          window.logger.error("Modal geçişinde hata", error, "modal");
         }
       });
     }
@@ -124,16 +148,24 @@ function initializeModals() {
       try {
         if (event.target === loginModal) {
           loginModal.style.display = "none";
+          window.logger.debug("Login modal closed (outside click)");
         }
         if (event.target === registerModal) {
           registerModal.style.display = "none";
+          window.logger.debug("Register modal closed (outside click)");
         }
       } catch (error) {
-        console.error("Modal dış tıklama işleminde hata:", error);
+        window.logger.error("Modal dış tıklama işleminde hata", error, "modal");
       }
     });
+
+    window.logger.info("Modal functionality initialized successfully");
   } catch (error) {
-    console.error("Modal functionality başlatılırken genel hata:", error);
+    window.logger.critical(
+      "Modal functionality başlatılırken genel hata",
+      error,
+      "modal"
+    );
   }
 }
 
@@ -142,54 +174,142 @@ function initializeModals() {
 // ==========================================
 
 /**
- * Validate login form
+ * Validate login form with enhanced error handling
  */
 function validateLoginForm(username, password) {
-  if (!username || !password) {
-    alert("Lütfen kullanıcı adı ve şifrenizi girin!");
+  try {
+    window.logger.debug("Validating login form", {
+      username: !!username,
+      password: !!password,
+    });
+
+    if (!username || !password) {
+      const message = "Lütfen kullanıcı adı ve şifrenizi girin!";
+      window.logger.warn("Login validation failed: missing fields", {
+        username: !!username,
+        password: !!password,
+      });
+      if (window.showNotification) {
+        window.showNotification(message, "error");
+      } else {
+        alert(message);
+      }
+      return false;
+    }
+
+    if (username.length < 3) {
+      const message = "Kullanıcı adı en az 3 karakter olmalıdır!";
+      window.logger.warn("Login validation failed: username too short", {
+        usernameLength: username.length,
+      });
+      if (window.showNotification) {
+        window.showNotification(message, "error");
+      } else {
+        alert(message);
+      }
+      return false;
+    }
+
+    window.logger.info("Login form validation passed");
+    return true;
+  } catch (error) {
+    window.logger.error("Login form validation error", error, "validation");
     return false;
   }
-
-  if (username.length < 3) {
-    alert("Kullanıcı adı en az 3 karakter olmalıdır!");
-    return false;
-  }
-
-  return true;
 }
 
 /**
- * Validate registration form
+ * Validate registration form with enhanced error handling
  */
 function validateRegistrationForm(username, email, password, confirmPassword) {
-  if (!username || !email || !password || !confirmPassword) {
-    alert("Lütfen tüm alanları doldurun!");
+  try {
+    window.logger.debug("Validating registration form", {
+      username: !!username,
+      email: !!email,
+      password: !!password,
+      confirmPassword: !!confirmPassword,
+    });
+
+    if (!username || !email || !password || !confirmPassword) {
+      const message = "Lütfen tüm alanları doldurun!";
+      window.logger.warn("Registration validation failed: missing fields", {
+        username: !!username,
+        email: !!email,
+        password: !!password,
+        confirmPassword: !!confirmPassword,
+      });
+      if (window.showNotification) {
+        window.showNotification(message, "error");
+      } else {
+        alert(message);
+      }
+      return false;
+    }
+
+    if (username.length < 3) {
+      const message = "Kullanıcı adı en az 3 karakter olmalıdır!";
+      window.logger.warn("Registration validation failed: username too short", {
+        usernameLength: username.length,
+      });
+      if (window.showNotification) {
+        window.showNotification(message, "error");
+      } else {
+        alert(message);
+      }
+      return false;
+    }
+
+    if (password.length < 6) {
+      const message = "Şifre en az 6 karakter olmalıdır!";
+      window.logger.warn("Registration validation failed: password too short", {
+        passwordLength: password.length,
+      });
+      if (window.showNotification) {
+        window.showNotification(message, "error");
+      } else {
+        alert(message);
+      }
+      return false;
+    }
+
+    if (password !== confirmPassword) {
+      const message = "Şifreler eşleşmiyor!";
+      window.logger.warn(
+        "Registration validation failed: passwords don't match"
+      );
+      if (window.showNotification) {
+        window.showNotification(message, "error");
+      } else {
+        alert(message);
+      }
+      return false;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      const message = "Geçerli bir e-posta adresi girin!";
+      window.logger.warn("Registration validation failed: invalid email", {
+        email,
+      });
+      if (window.showNotification) {
+        window.showNotification(message, "error");
+      } else {
+        alert(message);
+      }
+      return false;
+    }
+
+    window.logger.info("Registration form validation passed");
+    return true;
+  } catch (error) {
+    window.logger.error(
+      "Registration form validation error",
+      error,
+      "validation"
+    );
     return false;
   }
-
-  if (username.length < 3) {
-    alert("Kullanıcı adı en az 3 karakter olmalıdır!");
-    return false;
-  }
-
-  if (password.length < 6) {
-    alert("Şifre en az 6 karakter olmalıdır!");
-    return false;
-  }
-
-  if (password !== confirmPassword) {
-    alert("Şifreler eşleşmiyor!");
-    return false;
-  }
-
-  // Basic email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert("Geçerli bir e-posta adresi girin!");
-    return false;
-  }
-
-  return true;
 }
 
 // ==========================================
@@ -197,18 +317,22 @@ function validateRegistrationForm(username, email, password, confirmPassword) {
 // ==========================================
 
 /**
- * Initialize UI interactions
+ * Initialize UI interactions with enhanced error handling
  */
 function initializeUIInteractions() {
   try {
+    window.logger.info("Initializing UI interactions");
+
     // Add hover effects to room cards
     const roomCards = document.querySelectorAll(".room-card");
-    roomCards.forEach((card) => {
+    window.logger.debug("Found room cards", { count: roomCards.length });
+
+    roomCards.forEach((card, index) => {
       card.addEventListener("mouseenter", function () {
         try {
           this.style.transform = "translateY(-5px)";
         } catch (error) {
-          console.error("Room card hover effect hatası:", error);
+          window.logger.error("Room card hover effect hatası", error, "ui");
         }
       });
 
@@ -216,13 +340,36 @@ function initializeUIInteractions() {
         try {
           this.style.transform = "translateY(0)";
         } catch (error) {
-          console.error("Room card leave effect hatası:", error);
+          window.logger.error("Room card leave effect hatası", error, "ui");
+        }
+      });
+    });
+
+    // Add hover effects to game tables
+    const gameTables = document.querySelectorAll(".game-table");
+    window.logger.debug("Found game tables", { count: gameTables.length });
+
+    gameTables.forEach((table, index) => {
+      table.addEventListener("mouseenter", function () {
+        try {
+          this.style.transform = "translateY(-5px)";
+        } catch (error) {
+          window.logger.error("Game table hover effect hatası", error, "ui");
+        }
+      });
+
+      table.addEventListener("mouseleave", function () {
+        try {
+          this.style.transform = "translateY(0)";
+        } catch (error) {
+          window.logger.error("Game table leave effect hatası", error, "ui");
         }
       });
     });
 
     // Add click effects to quick links
     const quickLinks = document.querySelectorAll(".quick-link");
+    window.logger.debug("Found quick links", { count: quickLinks.length });
 
     quickLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
@@ -235,17 +382,64 @@ function initializeUIInteractions() {
 
           setTimeout(() => {
             link.style.transform = "translateY(0)";
-            if (targetUrl) {
+            if (targetUrl && targetUrl !== "#") {
+              window.logger.info("Navigating to URL", { targetUrl });
               window.location.href = targetUrl; // yönlendirmeyi yap
+            } else {
+              window.logger.debug("Quick link clicked (no navigation)", {
+                targetUrl,
+              });
             }
           }, 300);
         } catch (error) {
-          console.error("Quick link click effect hatası:", error);
+          window.logger.error("Quick link click effect hatası", error, "ui");
         }
       });
     });
+
+    // Add click effects to game table buttons
+    const playButtons = document.querySelectorAll(".btn-play");
+    window.logger.debug("Found play buttons", { count: playButtons.length });
+
+    playButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        try {
+          const tableElement = this.closest(".game-table");
+          const tableId = tableElement
+            ? tableElement.getAttribute("data-table-id")
+            : null;
+
+          if (this.classList.contains("disabled")) {
+            window.logger.warn("Attempted to play on disabled table", {
+              tableId,
+            });
+            if (window.showNotification) {
+              window.showNotification(
+                "Bu masa şu anda kullanılamıyor.",
+                "error"
+              );
+            }
+            return;
+          }
+
+          window.logger.info("Play button clicked", { tableId });
+          // Here you would typically join the game
+          if (window.showNotification) {
+            window.showNotification("Oyuna katılınıyor...", "info");
+          }
+        } catch (error) {
+          window.logger.error("Play button click error", error, "ui");
+        }
+      });
+    });
+
+    window.logger.info("UI interactions initialized successfully");
   } catch (error) {
-    console.error("UI interactions initialization hatası:", error);
+    window.logger.critical(
+      "UI interactions initialization hatası",
+      error,
+      "ui"
+    );
   }
 }
 
@@ -402,7 +596,18 @@ document.addEventListener("DOMContentLoaded", function () {
       updatePlayerCounts();
       setInterval(updatePlayerCounts, 5000);
 
-      console.log("OkeyMobil uygulaması başarıyla başlatıldı!");
+      // Start performance monitoring
+      startPerformanceMonitoring();
+
+      // Run tests in development mode
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+      ) {
+        setTimeout(runApplicationTests, 2000);
+      }
+
+      window.logger.info("🚀 OkeyMobil application initialized successfully");
     }, 100);
   } catch (error) {
     console.error("Uygulama başlatılırken genel hata:", error);
@@ -1671,6 +1876,163 @@ function showNotification(message, type = "info") {
   }
 }
 
+// ==========================================
+// TESTING AND DEBUGGING FUNCTIONS
+// ==========================================
+
+/**
+ * Run comprehensive tests for the application
+ */
+function runApplicationTests() {
+  try {
+    window.logger.info("🧪 Starting application tests");
+
+    // Test logger functionality
+    testLogger();
+
+    // Test modal functionality
+    testModals();
+
+    // Test UI interactions
+    testUIInteractions();
+
+    // Test socket connection (if available)
+    testSocketConnection();
+
+    window.logger.info("✅ Application tests completed");
+  } catch (error) {
+    window.logger.critical("Application tests failed", error, "test");
+  }
+}
+
+/**
+ * Test logger functionality
+ */
+function testLogger() {
+  try {
+    window.logger.debug("Testing debug level");
+    window.logger.info("Testing info level");
+    window.logger.warn("Testing warn level");
+    window.logger.error("Testing error level", new Error("Test error"));
+    window.logger.critical(
+      "Testing critical level",
+      new Error("Test critical error")
+    );
+    window.logger.info("✅ Logger tests passed");
+  } catch (error) {
+    console.error("Logger test failed:", error);
+  }
+}
+
+/**
+ * Test modal functionality
+ */
+function testModals() {
+  try {
+    const loginModal = document.getElementById("login-modal");
+    const registerModal = document.getElementById("register-modal");
+
+    if (loginModal && registerModal) {
+      window.logger.info("✅ Modal elements found");
+    } else {
+      window.logger.warn("❌ Some modal elements missing", {
+        loginModal: !!loginModal,
+        registerModal: !!registerModal,
+      });
+    }
+  } catch (error) {
+    window.logger.error("Modal test failed", error, "test");
+  }
+}
+
+/**
+ * Test UI interactions
+ */
+function testUIInteractions() {
+  try {
+    const roomCards = document.querySelectorAll(".room-card");
+    const gameTables = document.querySelectorAll(".game-table");
+    const quickLinks = document.querySelectorAll(".quick-link");
+
+    window.logger.info("UI elements test", {
+      roomCards: roomCards.length,
+      gameTables: gameTables.length,
+      quickLinks: quickLinks.length,
+    });
+
+    if (
+      roomCards.length > 0 ||
+      gameTables.length > 0 ||
+      quickLinks.length > 0
+    ) {
+      window.logger.info("✅ UI elements found");
+    } else {
+      window.logger.warn("❌ No UI elements found for testing");
+    }
+  } catch (error) {
+    window.logger.error("UI interactions test failed", error, "test");
+  }
+}
+
+/**
+ * Test socket connection
+ */
+function testSocketConnection() {
+  try {
+    if (window.socketManager) {
+      const status = window.socketManager.getStatus();
+      window.logger.info("Socket status test", status);
+
+      if (status.isConnected) {
+        window.logger.info("✅ Socket is connected");
+      } else {
+        window.logger.warn("⚠️ Socket is not connected", status);
+      }
+    } else {
+      window.logger.warn("❌ Socket manager not found");
+    }
+  } catch (error) {
+    window.logger.error("Socket connection test failed", error, "test");
+  }
+}
+
+/**
+ * Performance monitoring
+ */
+function startPerformanceMonitoring() {
+  try {
+    // Monitor page load performance
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        const perfData = performance.getEntriesByType("navigation")[0];
+        window.logger.info("Page load performance", {
+          loadTime: perfData.loadEventEnd - perfData.loadEventStart,
+          domContentLoaded:
+            perfData.domContentLoadedEventEnd -
+            perfData.domContentLoadedEventStart,
+          totalTime: perfData.loadEventEnd - perfData.fetchStart,
+        });
+      }, 0);
+    });
+
+    // Monitor memory usage (if available)
+    if (performance.memory) {
+      setInterval(function () {
+        const memInfo = performance.memory;
+        window.logger.debug("Memory usage", {
+          used: Math.round(memInfo.usedJSHeapSize / 1048576) + " MB",
+          total: Math.round(memInfo.totalJSHeapSize / 1048576) + " MB",
+          limit: Math.round(memInfo.jsHeapSizeLimit / 1048576) + " MB",
+        });
+      }, 30000); // Every 30 seconds
+    }
+
+    window.logger.info("✅ Performance monitoring started");
+  } catch (error) {
+    window.logger.error("Performance monitoring setup failed", error, "test");
+  }
+}
+
 // Initialize socket connection after login/register
 document.addEventListener("user-logged-in", () => {
   setTimeout(() => {
@@ -1687,6 +2049,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 500);
 });
+
+// Make test functions globally available
+window.runApplicationTests = runApplicationTests;
+window.testLogger = testLogger;
+window.testModals = testModals;
+window.testUIInteractions = testUIInteractions;
+window.testSocketConnection = testSocketConnection;
 
 // Make test functions globally available
 window.testUserPresence = testUserPresence;

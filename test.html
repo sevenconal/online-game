@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Sayfası - OkeyMobil</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Top Notification Bar -->
+    <div class="notification-bar">
+      <div class="container">
+        <p>
+          <i class="fas fa-bullhorn"></i>
+          <span>Test sayfası - Uygulama testleri için kullanılır.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+      <div class="container">
+        <div class="logo">
+          <h1>
+            <a href="index.html" style="text-decoration: none; color: inherit"
+              >OkeyMobil</a
+            >
+          </h1>
+        </div>
+        <nav>
+          <ul>
+            <li>
+              <a href="index.html"><i class="fas fa-home"></i> Ana Sayfa</a>
+            </li>
+            <li>
+              <a href="okey-salonlari.html"
+                ><i class="fas fa-dice"></i> Okey Salonları</a
+              >
+            </li>
+            <li>
+              <a href="arkadaslar.html"
+                ><i class="fas fa-user-friends"></i> Arkadaşlarım</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container main-container">
+      <div class="page-header">
+        <h1><i class="fas fa-flask"></i> Test Sayfası</h1>
+        <p>Uygulama bileşenlerini test etmek için bu sayfayı kullanın.</p>
+      </div>
+
+      <div class="content-layout">
+        <!-- Test Controls -->
+        <main class="main-content">
+          <section class="test-section">
+            <div class="section-header">
+              <h3><i class="fas fa-tools"></i> Test Kontrolleri</h3>
+            </div>
+
+            <div class="test-controls">
+              <div class="test-group">
+                <h4><i class="fas fa-terminal"></i> Logger Testleri</h4>
+                <button class="btn btn-primary" onclick="testLogger()">
+                  Logger Testi Çalıştır
+                </button>
+                <button class="btn btn-outline" onclick="console.clear()">
+                  Konsolu Temizle
+                </button>
+              </div>
+
+              <div class="test-group">
+                <h4><i class="fas fa-window-maximize"></i> Modal Testleri</h4>
+                <button class="btn btn-primary" onclick="testModals()">
+                  Modal Testi Çalıştır
+                </button>
+                <button
+                  class="btn btn-outline"
+                  onclick="document.getElementById('login-modal').style.display='flex'"
+                >
+                  Login Modal Aç
+                </button>
+                <button
+                  class="btn btn-outline"
+                  onclick="document.getElementById('register-modal').style.display='flex'"
+                >
+                  Register Modal Aç
+                </button>
+              </div>
+
+              <div class="test-group">
+                <h4>
+                  <i class="fas fa-mouse-pointer"></i> UI Etkileşim Testleri
+                </h4>
+                <button class="btn btn-primary" onclick="testUIInteractions()">
+                  UI Testi Çalıştır
+                </button>
+                <button class="btn btn-outline" onclick="updatePlayerCounts()">
+                  Oyuncu Sayısı Güncelle
+                </button>
+              </div>
+
+              <div class="test-group">
+                <h4><i class="fas fa-plug"></i> Socket Testleri</h4>
+                <button
+                  class="btn btn-primary"
+                  onclick="testSocketConnection()"
+                >
+                  Socket Bağlantı Testi
+                </button>
+                <button
+                  class="btn btn-outline"
+                  onclick="window.socketManager && console.log(window.socketManager.getStatus())"
+                >
+                  Socket Durumu
+                </button>
+              </div>
+
+              <div class="test-group">
+                <h4>
+                  <i class="fas fa-play-circle"></i> Tüm Testleri Çalıştır
+                </h4>
+                <button class="btn btn-large" onclick="runApplicationTests()">
+                  Tüm Testleri Başlat
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="test-section">
+            <div class="section-header">
+              <h3><i class="fas fa-info-circle"></i> Test Sonuçları</h3>
+            </div>
+            <div class="test-results">
+              <div id="test-output" class="test-output">
+                <p>Test sonuçları burada görünecek...</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="test-section">
+            <div class="section-header">
+              <h3><i class="fas fa-question-circle"></i> Test Açıklamaları</h3>
+            </div>
+            <div class="test-info">
+              <div class="info-item">
+                <h4>Logger Testi</h4>
+                <p>
+                  Farklı log seviyelerini test eder (debug, info, warn, error,
+                  critical)
+                </p>
+              </div>
+              <div class="info-item">
+                <h4>Modal Testi</h4>
+                <p>
+                  Modal elementlerinin varlığını ve çalışabilirliğini kontrol
+                  eder
+                </p>
+              </div>
+              <div class="info-item">
+                <h4>UI Etkileşim Testi</h4>
+                <p>
+                  Butonlar, linkler ve diğer etkileşimli elementleri test eder
+                </p>
+              </div>
+              <div class="info-item">
+                <h4>Socket Testi</h4>
+                <p>WebSocket bağlantısının durumunu kontrol eder</p>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3><i class="fas fa-dice"></i> OkeyMobil</h3>
+            <p>
+              Online okey, batak, tavla ve daha fazlasını oynamanın en iyi yolu.
+            </p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 OkeyMobil. Tüm hakları saklıdır.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/logger.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+      // Override console.log to show in test output
+      const originalConsoleLog = console.log;
+      const originalConsoleError = console.error;
+      const originalConsoleWarn = console.warn;
+
+      function addToTestOutput(message, type = "log") {
+        const output = document.getElementById("test-output");
+        if (output) {
+          const time = new Date().toLocaleTimeString();
+          const div = document.createElement("div");
+          div.className = `test-message ${type}`;
+          div.innerHTML = `<span class="timestamp">[${time}]</span> ${message}`;
+          output.appendChild(div);
+          output.scrollTop = output.scrollHeight;
+        }
+      }
+
+      console.log = function (...args) {
+        originalConsoleLog.apply(console, args);
+        addToTestOutput(args.join(" "), "log");
+      };
+
+      console.error = function (...args) {
+        originalConsoleError.apply(console, args);
+        addToTestOutput(args.join(" "), "error");
+      };
+
+      console.warn = function (...args) {
+        originalConsoleWarn.apply(console, args);
+        addToTestOutput(args.join(" "), "warn");
+      };
+
+      // Clear test output
+      function clearTestOutput() {
+        const output = document.getElementById("test-output");
+        if (output) {
+          output.innerHTML = "<p>Test sonuçları burada görünecek...</p>";
+        }
+      }
+
+      // Make functions globally available
+      window.clearTestOutput = clearTestOutput;
+    </script>
+  </body>
+</html>

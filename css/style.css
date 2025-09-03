@@ -1982,3 +1982,124 @@ body.game-pisti .table-number {
     padding: 2px 6px;
   }
 }
+
+/* Test Page Styles */
+.test-section {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+.test-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.test-group {
+  background: #f0f8ff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #cce6ff;
+}
+
+.test-group h4 {
+  color: #4a90e2;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.test-group h4 i {
+  font-size: 1.2rem;
+}
+
+.test-group .btn {
+  margin: 5px;
+  width: calc(100% - 10px);
+}
+
+.test-results {
+  margin-top: 20px;
+}
+
+.test-output {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 15px;
+  height: 300px;
+  overflow-y: auto;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.test-message {
+  margin-bottom: 5px;
+  padding: 2px 0;
+}
+
+.test-message.log {
+  color: #333;
+}
+
+.test-message.error {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.test-message.warn {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.timestamp {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.test-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.info-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #4a90e2;
+}
+
+.info-item h4 {
+  color: #4a90e2;
+  margin-bottom: 8px;
+}
+
+.info-item p {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Responsive Design for Test Page */
+@media (max-width: 768px) {
+  .test-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .test-info {
+    grid-template-columns: 1fr;
+  }
+
+  .test-output {
+    height: 200px;
+    font-size: 0.8rem;
+  }
+}
