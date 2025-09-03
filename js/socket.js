@@ -1,8 +1,7 @@
 // Socket.io Client for OkeyOnline
 // Real-time communication with backend
 
-// Import Socket.io client
-import io from "socket.io-client";
+// Socket.io loaded from CDN - available as global 'io'
 
 class SocketManager {
   constructor() {
