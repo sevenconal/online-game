@@ -95,6 +95,37 @@ class SocketManager {
       this.emit("online-users", data);
     });
 
+    // Game state events
+    this.socket.on("game-state-update", (data) => {
+      console.log("🎮 Game state update:", data);
+      this.emit("game-state-update", data);
+    });
+
+    this.socket.on("game-started", (data) => {
+      console.log("🎯 Game started:", data);
+      this.emit("game-started", data);
+    });
+
+    this.socket.on("game-ended", (data) => {
+      console.log("🏁 Game ended:", data);
+      this.emit("game-ended", data);
+    });
+
+    this.socket.on("player-joined-game", (data) => {
+      console.log("👤 Player joined game:", data);
+      this.emit("player-joined-game", data);
+    });
+
+    this.socket.on("player-left-game", (data) => {
+      console.log("👋 Player left game:", data);
+      this.emit("player-left-game", data);
+    });
+
+    this.socket.on("table-status-changed", (data) => {
+      console.log("📊 Table status changed:", data);
+      this.emit("table-status-changed", data);
+    });
+
     // Game events
     this.socket.on("game-update", (data) => {
       console.log("🎮 Game update:", data);

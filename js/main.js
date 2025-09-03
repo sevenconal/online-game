@@ -639,6 +639,31 @@ function setupSocketEventListeners(socketManager) {
     updateOnlineUsersList(data.users);
   });
 
+  // Game state events
+  socketManager.on("game-state-update", (data) => {
+    updateGameState(data);
+  });
+
+  socketManager.on("game-started", (data) => {
+    handleGameStart(data);
+  });
+
+  socketManager.on("game-ended", (data) => {
+    handleGameEnd(data);
+  });
+
+  socketManager.on("player-joined-game", (data) => {
+    handlePlayerJoinedGame(data);
+  });
+
+  socketManager.on("player-left-game", (data) => {
+    handlePlayerLeftGame(data);
+  });
+
+  socketManager.on("table-status-changed", (data) => {
+    handleTableStatusChanged(data);
+  });
+
   // Game events
   socketManager.on("game-state-update", (data) => {
     console.log("🎮 Game state update:", data);
@@ -1121,6 +1146,339 @@ function updateOnlineUsersList(users) {
 }
 
 /**
+ * Update game state
+ */
+function updateGameState(data) {
+  try {
+    console.log("🎮 Updating game state:", data);
+
+    // Update table status
+    if (data.tableId) {
+      updateTableStatus(data.tableId, data);
+    }
+
+    // Update player positions
+    if (data.players) {
+      updatePlayerPositions(data.tableId, data.players);
+    }
+
+    // Update game score
+    if (data.score !== undefined) {
+      updateGameScore(data.tableId, data.score);
+    }
+
+    // Update game timer
+    if (data.timeLeft !== undefined) {
+      updateGameTimer(data.tableId, data.timeLeft);
+    }
+  } catch (error) {
+    console.error("Update game state error:", error);
+  }
+}
+
+/**
+ * Handle game start
+ */
+function handleGameStart(data) {
+  try {
+    console.log("🎯 Game started:", data);
+
+    // Update table status to "playing"
+    updateTableStatus(data.tableId, { status: "playing", gameStarted: true });
+
+    // Show notification
+    showNotification(`Masa ${data.tableId} oyun başladı!`, "success");
+
+    // Update UI elements
+    const tableElement = document.querySelector(
+      `[data-table-id="${data.tableId}"]`
+    );
+    if (tableElement) {
+      tableElement.classList.add("playing");
+      tableElement.classList.remove("waiting");
+    }
+  } catch (error) {
+    console.error("Handle game start error:", error);
+  }
+}
+
+/**
+ * Handle game end
+ */
+function handleGameEnd(data) {
+  try {
+    console.log("🏁 Game ended:", data);
+
+    // Update table status to "finished"
+    updateTableStatus(data.tableId, {
+      status: "finished",
+      gameEnded: true,
+      winner: data.winner,
+    });
+
+    // Show notification
+    const winnerText = data.winner ? `${data.winner} kazandı!` : "Oyun bitti!";
+    showNotification(`Masa ${data.tableId}: ${winnerText}`, "info");
+
+    // Update UI elements
+    const tableElement = document.querySelector(
+      `[data-table-id="${data.tableId}"]`
+    );
+    if (tableElement) {
+      tableElement.classList.remove("playing");
+      tableElement.classList.add("finished");
+    }
+
+    // Reset after 5 seconds
+    setTimeout(() => {
+      if (tableElement) {
+        tableElement.classList.remove("finished");
+        tableElement.classList.add("waiting");
+      }
+    }, 5000);
+  } catch (error) {
+    console.error("Handle game end error:", error);
+  }
+}
+
+/**
+ * Handle player joined game
+ */
+function handlePlayerJoinedGame(data) {
+  try {
+    console.log("👤 Player joined game:", data);
+
+    // Update player position in table
+    updatePlayerInTable(data.tableId, data.player, "joined");
+
+    // Show notification
+    showNotification(`${data.player.username} masaya katıldı!`, "info");
+  } catch (error) {
+    console.error("Handle player joined game error:", error);
+  }
+}
+
+/**
+ * Handle player left game
+ */
+function handlePlayerLeftGame(data) {
+  try {
+    console.log("👋 Player left game:", data);
+
+    // Update player position in table
+    updatePlayerInTable(data.tableId, data.player, "left");
+
+    // Show notification
+    showNotification(`${data.player.username} masadan ayrıldı!`, "info");
+  } catch (error) {
+    console.error("Handle player left game error:", error);
+  }
+}
+
+/**
+ * Handle table status changed
+ */
+function handleTableStatusChanged(data) {
+  try {
+    console.log("📊 Table status changed:", data);
+
+    updateTableStatus(data.tableId, data);
+
+    // Update UI based on status
+    const tableElement = document.querySelector(
+      `[data-table-id="${data.tableId}"]`
+    );
+    if (tableElement) {
+      // Remove all status classes
+      tableElement.classList.remove(
+        "waiting",
+        "playing",
+        "finished",
+        "full",
+        "empty"
+      );
+
+      // Add new status class
+      if (data.status) {
+        tableElement.classList.add(data.status);
+      }
+    }
+  } catch (error) {
+    console.error("Handle table status changed error:", error);
+  }
+}
+
+/**
+ * Update table status
+ */
+function updateTableStatus(tableId, data) {
+  try {
+    const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
+    if (!tableElement) return;
+
+    // Update status indicators
+    const indicators = tableElement.querySelector(".table-indicators");
+    if (indicators && data.status) {
+      // Update status indicator
+      const statusIndicator = indicators.querySelector(".indicator.status");
+      if (statusIndicator) {
+        let statusText = "Başlamadı";
+        if (data.status === "playing") statusText = "Oyun Başladı";
+        else if (data.status === "finished") statusText = "Oyun Bitti";
+        else if (data.status === "waiting") statusText = "Oyuncu Bekleniyor";
+
+        statusIndicator.textContent = statusText;
+      }
+    }
+
+    // Update player count
+    if (data.playerCount !== undefined) {
+      const playerCountElement = tableElement.querySelector(".player-count");
+      if (playerCountElement) {
+        playerCountElement.textContent = `${data.playerCount}/4 Oyuncu`;
+      }
+    }
+
+    // Update score
+    if (data.score !== undefined) {
+      const scoreElement = tableElement.querySelector(".table-score");
+      if (scoreElement) {
+        scoreElement.textContent = `Puan: ${data.score}`;
+      }
+    }
+  } catch (error) {
+    console.error("Update table status error:", error);
+  }
+}
+
+/**
+ * Update player positions in table
+ */
+function updatePlayerPositions(tableId, players) {
+  try {
+    const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
+    if (!tableElement) return;
+
+    const playerElements = tableElement.querySelectorAll(".player");
+
+    players.forEach((player, index) => {
+      if (playerElements[index]) {
+        const playerElement = playerElements[index];
+        const avatarElement = playerElement.querySelector(".player-avatar");
+        const nameElement = playerElement.querySelector(".player-name");
+
+        if (avatarElement) {
+          avatarElement.textContent = player.avatar || "👤";
+        }
+
+        if (nameElement) {
+          nameElement.textContent = player.username || "Boş";
+          nameElement.classList.toggle("empty", !player.username);
+        }
+
+        playerElement.classList.toggle("empty", !player.username);
+      }
+    });
+  } catch (error) {
+    console.error("Update player positions error:", error);
+  }
+}
+
+/**
+ * Update player in table
+ */
+function updatePlayerInTable(tableId, player, action) {
+  try {
+    const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
+    if (!tableElement) return;
+
+    // Find empty player slot or update existing
+    const playerElements = tableElement.querySelectorAll(".player");
+
+    if (action === "joined") {
+      // Find empty slot
+      const emptySlot = Array.from(playerElements).find((el) =>
+        el.classList.contains("empty")
+      );
+      if (emptySlot) {
+        const avatarElement = emptySlot.querySelector(".player-avatar");
+        const nameElement = emptySlot.querySelector(".player-name");
+
+        if (avatarElement) avatarElement.textContent = player.avatar || "👤";
+        if (nameElement) {
+          nameElement.textContent = player.username;
+          nameElement.classList.remove("empty");
+        }
+        emptySlot.classList.remove("empty");
+      }
+    } else if (action === "left") {
+      // Find player slot and empty it
+      playerElements.forEach((playerElement) => {
+        const nameElement = playerElement.querySelector(".player-name");
+        if (nameElement && nameElement.textContent === player.username) {
+          const avatarElement = playerElement.querySelector(".player-avatar");
+
+          if (avatarElement) avatarElement.textContent = "👤";
+          if (nameElement) {
+            nameElement.textContent = "Boş";
+            nameElement.classList.add("empty");
+          }
+          playerElement.classList.add("empty");
+        }
+      });
+    }
+  } catch (error) {
+    console.error("Update player in table error:", error);
+  }
+}
+
+/**
+ * Update game score
+ */
+function updateGameScore(tableId, score) {
+  try {
+    const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
+    if (!tableElement) return;
+
+    const scoreElement = tableElement.querySelector(".table-score");
+    if (scoreElement) {
+      scoreElement.textContent = `Puan: ${score}`;
+    }
+  } catch (error) {
+    console.error("Update game score error:", error);
+  }
+}
+
+/**
+ * Update game timer
+ */
+function updateGameTimer(tableId, timeLeft) {
+  try {
+    const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
+    if (!tableElement) return;
+
+    // Create or update timer element
+    let timerElement = tableElement.querySelector(".game-timer");
+    if (!timerElement) {
+      timerElement = document.createElement("div");
+      timerElement.className = "game-timer";
+      tableElement.appendChild(timerElement);
+    }
+
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerElement.textContent = `⏱️ ${minutes}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+
+    // Add warning class if time is low
+    timerElement.classList.toggle("warning", timeLeft < 60);
+  } catch (error) {
+    console.error("Update game timer error:", error);
+  }
+}
+
+/**
  * Test user presence system
  */
 function testUserPresence() {
@@ -1170,6 +1528,126 @@ function testUserPresence() {
 }
 
 /**
+ * Test game state synchronization with detailed logging and manual control
+ */
+function testGameState() {
+  console.log("🎮 === GAME STATE SYNCHRONIZATION TEST BAŞLIYOR ===");
+
+  if (window.socketManager) {
+    const status = window.socketManager.getStatus();
+    console.log("📊 Socket Status:", status);
+
+    if (status.isConnected) {
+      console.log("✅ Socket bağlantısı aktif, test başlatılıyor...");
+      console.log("⏳ 3 saniye sonra oyun başlatma testi başlayacak...");
+
+      // Test game start - 3 saniye sonra
+      setTimeout(() => {
+        console.log("\n🎯 === ADIM 1: OYUN BAŞLATMA TESTİ ===");
+        console.log("📝 Test: Masa 3897'de oyun başlatılıyor...");
+        handleGameStart({ tableId: "3897" });
+        console.log("✅ Oyun başlatma testi tamamlandı");
+        console.log("⏳ 3 saniye sonra oyuncu katılım testi başlayacak...");
+      }, 3000);
+
+      // Test player joined - 6 saniye sonra
+      setTimeout(() => {
+        console.log("\n👤 === ADIM 2: OYUNCU KATILIM TESTİ ===");
+        console.log("📝 Test: NewPlayer masaya katılıyor...");
+        handlePlayerJoinedGame({
+          tableId: "3897",
+          player: { username: "NewPlayer", avatar: "🎮" },
+        });
+        console.log("✅ Oyuncu katılım testi tamamlandı");
+        console.log(
+          "⏳ 3 saniye sonra oyun durumu güncelleme testi başlayacak..."
+        );
+      }, 6000);
+
+      // Test game state update - 9 saniye sonra
+      setTimeout(() => {
+        console.log("\n📊 === ADIM 3: OYUN DURUMU GÜNCELLEME TESTİ ===");
+        console.log(
+          "📝 Test: Masa durumu güncelleniyor (puan, süre, oyuncular)..."
+        );
+        updateGameState({
+          tableId: "3897",
+          score: 1250,
+          timeLeft: 180,
+          players: [
+            { username: "Player1", avatar: "👤" },
+            { username: "Player2", avatar: "👤" },
+            { username: "NewPlayer", avatar: "🎮" },
+            { username: "Player4", avatar: "👤" },
+          ],
+        });
+        console.log("✅ Oyun durumu güncelleme testi tamamlandı");
+        console.log("⏳ 3 saniye sonra oyun bitiş testi başlayacak...");
+      }, 9000);
+
+      // Test game end - 12 saniye sonra
+      setTimeout(() => {
+        console.log("\n🏁 === ADIM 4: OYUN BİTİŞ TESTİ ===");
+        console.log("📝 Test: Oyun bitiriliyor, kazanan belirleniyor...");
+        handleGameEnd({ tableId: "3897", winner: "Player1" });
+        console.log("✅ Oyun bitiş testi tamamlandı");
+        console.log("\n🎉 === TÜM TESTLER TAMAMLANDI ===");
+        console.log("📋 Test sonuçlarını kontrol edin:");
+        console.log("   - Masa 3897 durumu değişti mi?");
+        console.log("   - Notification'lar göründü mü?");
+        console.log("   - Oyuncu pozisyonları güncellendi mi?");
+        console.log("   - Puan ve süre gösterildi mi?");
+      }, 12000);
+    } else {
+      console.log("❌ Socket bağlantısı yok - test başlatılamadı");
+      console.log("💡 Önce socket bağlantısını kontrol edin");
+    }
+  } else {
+    console.log("❌ Socket manager bulunamadı");
+    console.log("💡 Socket.io kütüphanesi yüklenmemiş olabilir");
+  }
+}
+
+/**
+ * Test individual game state functions
+ */
+function testGameFunction(functionName) {
+  console.log(`🧪 Testing individual function: ${functionName}`);
+
+  switch (functionName) {
+    case "gameStart":
+      console.log("🎯 Testing game start...");
+      handleGameStart({ tableId: "3897" });
+      break;
+
+    case "playerJoin":
+      console.log("👤 Testing player join...");
+      handlePlayerJoinedGame({
+        tableId: "3897",
+        player: { username: "TestPlayer", avatar: "🎮" },
+      });
+      break;
+
+    case "gameUpdate":
+      console.log("📊 Testing game update...");
+      updateGameState({
+        tableId: "3897",
+        score: 750,
+        timeLeft: 120,
+      });
+      break;
+
+    case "gameEnd":
+      console.log("🏁 Testing game end...");
+      handleGameEnd({ tableId: "3897", winner: "TestPlayer" });
+      break;
+
+    default:
+      console.log("❌ Unknown function name");
+  }
+}
+
+/**
  * Show notification
  */
 function showNotification(message, type = "info") {
@@ -1210,5 +1688,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 500);
 });
 
-// Make test function globally available
+// Make test functions globally available
 window.testUserPresence = testUserPresence;
+window.testGameState = testGameState;
+window.testGameFunction = testGameFunction;
