@@ -560,40 +560,35 @@ function initializeSocketConnection() {
   try {
     // Check if user is logged in
     const token = localStorage.getItem("token");
-    console.log("🔍 Checking for authentication token...");
-    console.log("🔑 Token status:", token ? "Found" : "Not found");
+    console.log("🔑 Token kontrol ediliyor...");
 
     if (!token) {
       console.log("🔌 No token found, skipping socket connection");
       return;
     }
 
-    // Import socket manager
-    import("./socket.js")
-      .then((module) => {
-        const socketManager = module.default;
-        console.log("📦 Socket manager loaded successfully");
+    if (window.socketManager) {
+      const socketManager = window.socketManager;
 
-        // Connect to socket server
-        const socket = socketManager.connect(token);
+      // Connect to socket server
+      const socket = socketManager.connect(token);
 
-        if (socket) {
-          // Setup socket event listeners
-          setupSocketEventListeners(socketManager);
-          console.log("🔌 Socket.io connection initialized successfully");
+      if (socket) {
+        // Setup socket event listeners
+        setupSocketEventListeners(socketManager);
+        console.log("✅ Socket.io bağlantısı kuruldu");
 
-          // Test connection after 2 seconds
-          setTimeout(() => {
-            const status = socketManager.getStatus();
-            console.log("🔍 Socket connection status:", status);
-          }, 2000);
-        } else {
-          console.error("❌ Failed to create socket connection");
-        }
-      })
-      .catch((error) => {
-        console.error("❌ Failed to load socket manager:", error);
-      });
+        // Test connection after 2 seconds
+        setTimeout(() => {
+          const status = socketManager.getStatus();
+          console.log("📊 Bağlantı durumu:", status);
+        }, 2000);
+      } else {
+        console.error("❌ Socket bağlantısı kurulamadı");
+      }
+    } else {
+      console.error("❌ Socket manager bulunamadı");
+    }
   } catch (error) {
     console.error("Socket initialization error:", error);
   }
@@ -605,35 +600,43 @@ function initializeSocketConnection() {
 function setupSocketEventListeners(socketManager) {
   // Connection status
   socketManager.on("connection-status", (data) => {
-    console.log("🔌 Connection status:", data.status);
     updateConnectionStatus(data);
   });
 
   // Room events
   socketManager.on("room-joined", (data) => {
-    console.log("📍 Room joined:", data.roomId);
+    console.log("✅ Odaya katıldınız:", data.roomId);
     updateRoomUI(data);
   });
 
   socketManager.on("user-joined-room", (data) => {
-    console.log("👤 User joined room:", data.username);
     addUserToRoom(data);
   });
 
   socketManager.on("user-left-room", (data) => {
-    console.log("👋 User left room:", data.username);
     removeUserFromRoom(data);
   });
 
   // Chat events
   socketManager.on("new-chat-message", (data) => {
-    console.log("💬 New message:", data);
     addMessageToChat(data);
   });
 
   socketManager.on("user-typing", (data) => {
-    console.log("⌨️ User typing:", data);
     handleTypingIndicator(data);
+  });
+
+  // User presence events
+  socketManager.on("user-online", (data) => {
+    updateUserPresence(data, "online");
+  });
+
+  socketManager.on("user-offline", (data) => {
+    updateUserPresence(data, "offline");
+  });
+
+  socketManager.on("online-users", (data) => {
+    updateOnlineUsersList(data.users);
   });
 
   // Game events
@@ -875,6 +878,22 @@ function handleConnectionError(error) {
  */
 function enableRoomFeatures(roomId) {
   try {
+    // Check socket connection
+    if (
+      !window.socketManager ||
+      !window.socketManager.getStatus().isConnected
+    ) {
+      showNotification("Socket bağlantısı yok!", "error");
+      return;
+    }
+
+    // Join room automatically
+    const joinSuccess = window.socketManager.joinRoom(roomId);
+    if (!joinSuccess) {
+      showNotification("Odaya katılamadı!", "error");
+      return;
+    }
+
     // Enable chat input
     const chatInput = document.getElementById("chat-input");
     if (chatInput) {
@@ -894,6 +913,10 @@ function enableRoomFeatures(roomId) {
         sendChatMessage();
       };
 
+      // Remove existing listeners to prevent duplicates
+      sendButton.removeEventListener("click", sendMessage);
+      chatInput.removeEventListener("keypress", sendMessage);
+
       sendButton.addEventListener("click", sendMessage);
       chatInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
@@ -904,8 +927,12 @@ function enableRoomFeatures(roomId) {
 
     // Initialize typing indicators
     initializeTypingIndicators();
+
+    // Show success notification
+    showNotification(`${roomId} odasına katıldınız!`, "success");
   } catch (error) {
-    console.error("Enable room features error:", error);
+    console.error("Oda özellikleri hatası:", error);
+    showNotification("Oda özellikleri etkinleştirilemedi!", "error");
   }
 }
 
@@ -1013,6 +1040,136 @@ function initializeTypingIndicators() {
 }
 
 /**
+ * Update user presence status
+ */
+function updateUserPresence(data, status) {
+  try {
+    // Update user in online users list
+    const userList = document.getElementById("online-users-list");
+    if (userList) {
+      const userItems = userList.querySelectorAll(".user-item");
+      userItems.forEach((item) => {
+        const userName = item.querySelector(".user-name");
+        if (userName && userName.textContent === data.username) {
+          item.className = `user-item ${status}`;
+          const statusIndicator = item.querySelector(".status-indicator");
+          if (statusIndicator) {
+            statusIndicator.className = `status-indicator ${status}`;
+          }
+        }
+      });
+    }
+
+    // Update friends list if exists
+    const friendsList = document.querySelector(".friends-list");
+    if (friendsList) {
+      const friendItems = friendsList.querySelectorAll(".friend");
+      friendItems.forEach((item) => {
+        const friendName = item.querySelector(".friend-name");
+        if (friendName && friendName.textContent === data.username) {
+          item.className = `friend ${status}`;
+          const statusIndicator = item.querySelector(".status-indicator");
+          if (statusIndicator) {
+            statusIndicator.className = `status-indicator ${status}`;
+          }
+        }
+      });
+    }
+
+    // Show notification
+    const statusText =
+      status === "online" ? "çevrimiçi oldu" : "çevrimdışı oldu";
+    showNotification(`${data.username} ${statusText}`, "info");
+  } catch (error) {
+    console.error("Update user presence error:", error);
+  }
+}
+
+/**
+ * Update online users list
+ */
+function updateOnlineUsersList(users) {
+  try {
+    const userList = document.getElementById("online-users-list");
+    if (userList) {
+      // Clear existing list
+      userList.innerHTML = "";
+
+      // Add each online user
+      users.forEach((user) => {
+        const userItem = document.createElement("li");
+        userItem.className = "user-item online";
+        userItem.innerHTML = `
+          <span class="status-indicator online"></span>
+          <span class="user-name">${user.username}</span>
+          <span class="user-status">${
+            user.currentRoom ? user.currentRoom + " odasında" : "Lobide"
+          }</span>
+        `;
+        userList.appendChild(userItem);
+      });
+
+      // Update online users count
+      const countElement = document.getElementById("online-users-count");
+      if (countElement) {
+        countElement.textContent = users.length;
+      }
+    }
+  } catch (error) {
+    console.error("Update online users list error:", error);
+  }
+}
+
+/**
+ * Test user presence system
+ */
+function testUserPresence() {
+  console.log("🧪 Testing User Presence System...");
+
+  // Check socket connection
+  if (window.socketManager) {
+    const status = window.socketManager.getStatus();
+    console.log("📊 Socket Status:", status);
+
+    if (status.isConnected) {
+      console.log("✅ Socket connected, testing user presence...");
+
+      // Test user online
+      setTimeout(() => {
+        console.log("🟢 Simulating user online...");
+        updateUserPresence(
+          { username: "TestUser", currentRoom: "okey-salonu" },
+          "online"
+        );
+      }, 1000);
+
+      // Test user offline
+      setTimeout(() => {
+        console.log("🔴 Simulating user offline...");
+        updateUserPresence(
+          { username: "TestUser", currentRoom: null },
+          "offline"
+        );
+      }, 3000);
+
+      // Test online users list
+      setTimeout(() => {
+        console.log("👥 Simulating online users list...");
+        updateOnlineUsersList([
+          { username: "Player1", currentRoom: "okey-salonu" },
+          { username: "Player2", currentRoom: "batak-salonu" },
+          { username: "Player3", currentRoom: null },
+        ]);
+      }, 5000);
+    } else {
+      console.log("❌ Socket not connected");
+    }
+  } else {
+    console.log("❌ Socket manager not found");
+  }
+}
+
+/**
  * Show notification
  */
 function showNotification(message, type = "info") {
@@ -1052,3 +1209,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 500);
 });
+
+// Make test function globally available
+window.testUserPresence = testUserPresence;

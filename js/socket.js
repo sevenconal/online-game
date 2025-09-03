@@ -79,6 +79,22 @@ class SocketManager {
       this.emit("new-chat-message", data);
     });
 
+    // User presence events
+    this.socket.on("user-online", (data) => {
+      console.log("🟢 User online:", data.username);
+      this.emit("user-online", data);
+    });
+
+    this.socket.on("user-offline", (data) => {
+      console.log("🔴 User offline:", data.username);
+      this.emit("user-offline", data);
+    });
+
+    this.socket.on("online-users", (data) => {
+      console.log("👥 Online users list:", data.users);
+      this.emit("online-users", data);
+    });
+
     // Game events
     this.socket.on("game-update", (data) => {
       console.log("🎮 Game update:", data);
@@ -203,8 +219,8 @@ class SocketManager {
 // Create global instance
 const socketManager = new SocketManager();
 
-// Export for use in other files
+// Make available globally for non-module usage
 window.SocketManager = SocketManager;
 window.socketManager = socketManager;
 
-export default socketManager;
+// Socket manager is now available globally

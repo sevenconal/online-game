@@ -149,56 +149,12 @@
             <h3><i class="fas fa-users"></i> Çevrimiçi Kullanıcılar</h3>
           </div>
           <div class="sidebar-content">
-            <ul class="user-list">
+            <ul id="online-users-list" class="user-list">
+              <!-- Online users will be populated by JavaScript -->
               <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu1</span>
-                <span class="user-status">Okey oynuyor</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu2</span>
-                <span class="user-status">Lobide</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu3</span>
-                <span class="user-status">Okey oynuyor</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu4</span>
-                <span class="user-status">Lobide</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu5</span>
-                <span class="user-status">Okey oynuyor</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu6</span>
-                <span class="user-status">Lobide</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu7</span>
-                <span class="user-status">Okey oynuyor</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu8</span>
-                <span class="user-status">Lobide</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu9</span>
-                <span class="user-status">Okey oynuyor</span>
-              </li>
-              <li class="user-item online">
-                <span class="status-indicator"></span>
-                <span class="user-name">Oyuncu10</span>
-                <span class="user-status">Lobide</span>
+                <span class="status-indicator online"></span>
+                <span class="user-name">Sistem</span>
+                <span class="user-status">Sunucu aktif</span>
               </li>
             </ul>
           </div>
@@ -438,7 +394,31 @@
       </div>
     </footer>
 
+    <script src="js/socket.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/socket.js" type="module"></script>
+    <script>
+      // Auto-join okey room when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          if (
+            window.socketManager &&
+            window.socketManager.getStatus().isConnected
+          ) {
+            enableRoomFeatures("okey-salonu");
+          } else {
+            console.log("⏳ Waiting for socket connection...");
+            // Retry after 2 seconds
+            setTimeout(() => {
+              if (
+                window.socketManager &&
+                window.socketManager.getStatus().isConnected
+              ) {
+                enableRoomFeatures("okey-salonu");
+              }
+            }, 2000);
+          }
+        }, 1000);
+      });
+    </script>
   </body>
 </html>
