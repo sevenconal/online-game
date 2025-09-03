@@ -560,6 +560,9 @@ function initializeSocketConnection() {
   try {
     // Check if user is logged in
     const token = localStorage.getItem("token");
+    console.log("🔍 Checking for authentication token...");
+    console.log("🔑 Token status:", token ? "Found" : "Not found");
+
     if (!token) {
       console.log("🔌 No token found, skipping socket connection");
       return;
@@ -569,17 +572,27 @@ function initializeSocketConnection() {
     import("./socket.js")
       .then((module) => {
         const socketManager = module.default;
+        console.log("📦 Socket manager loaded successfully");
 
         // Connect to socket server
-        socketManager.connect(token);
+        const socket = socketManager.connect(token);
 
-        // Setup socket event listeners
-        setupSocketEventListeners(socketManager);
+        if (socket) {
+          // Setup socket event listeners
+          setupSocketEventListeners(socketManager);
+          console.log("🔌 Socket.io connection initialized successfully");
 
-        console.log("🔌 Socket.io connection initialized");
+          // Test connection after 2 seconds
+          setTimeout(() => {
+            const status = socketManager.getStatus();
+            console.log("🔍 Socket connection status:", status);
+          }, 2000);
+        } else {
+          console.error("❌ Failed to create socket connection");
+        }
       })
       .catch((error) => {
-        console.error("Failed to load socket manager:", error);
+        console.error("❌ Failed to load socket manager:", error);
       });
   } catch (error) {
     console.error("Socket initialization error:", error);

@@ -16,10 +16,18 @@ class SocketManager {
     }
 
     console.log("🔌 Connecting to Socket.io server...");
+    console.log("🔑 Token:", token ? "Present" : "Missing");
+
+    if (!token) {
+      console.error("❌ No token provided for socket connection");
+      return null;
+    }
 
     this.socket = io("http://localhost:5000", {
       auth: { token: token },
       transports: ["websocket", "polling"],
+      timeout: 5000,
+      forceNew: true,
     });
 
     this.setupEventListeners();
