@@ -548,3 +548,371 @@ function initializeFormHandlers() {
 setTimeout(() => {
   initializeFormHandlers();
 }, 200);
+
+// ==========================================
+// SOCKET.IO INTEGRATION
+// ==========================================
+
+/**
+ * Initialize Socket.io connection
+ */
+function initializeSocketConnection() {
+  try {
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("🔌 No token found, skipping socket connection");
+      return;
+    }
+
+    // Import socket manager
+    import("./socket.js")
+      .then((module) => {
+        const socketManager = module.default;
+
+        // Connect to socket server
+        socketManager.connect(token);
+
+        // Setup socket event listeners
+        setupSocketEventListeners(socketManager);
+
+        console.log("🔌 Socket.io connection initialized");
+      })
+      .catch((error) => {
+        console.error("Failed to load socket manager:", error);
+      });
+  } catch (error) {
+    console.error("Socket initialization error:", error);
+  }
+}
+
+/**
+ * Setup socket event listeners
+ */
+function setupSocketEventListeners(socketManager) {
+  // Connection status
+  socketManager.on("connection-status", (data) => {
+    console.log("🔌 Connection status:", data.status);
+    updateConnectionStatus(data);
+  });
+
+  // Room events
+  socketManager.on("room-joined", (data) => {
+    console.log("📍 Room joined:", data.roomId);
+    updateRoomUI(data);
+  });
+
+  socketManager.on("user-joined-room", (data) => {
+    console.log("👤 User joined room:", data.username);
+    addUserToRoom(data);
+  });
+
+  socketManager.on("user-left-room", (data) => {
+    console.log("👋 User left room:", data.username);
+    removeUserFromRoom(data);
+  });
+
+  // Chat events
+  socketManager.on("new-chat-message", (data) => {
+    console.log("💬 New message:", data);
+    addMessageToChat(data);
+  });
+
+  // Game events
+  socketManager.on("game-state-update", (data) => {
+    console.log("🎮 Game state update:", data);
+    updateGameState(data);
+  });
+
+  socketManager.on("game-started", (data) => {
+    console.log("🎯 Game started:", data);
+    handleGameStart(data);
+  });
+
+  socketManager.on("game-ended", (data) => {
+    console.log("🏁 Game ended:", data);
+    handleGameEnd(data);
+  });
+
+  // Error handling
+  socketManager.on("socket-error", (error) => {
+    console.error("🔌 Socket error:", error);
+    handleSocketError(error);
+  });
+
+  socketManager.on("connection-error", (error) => {
+    console.error("🔌 Connection error:", error);
+    handleConnectionError(error);
+  });
+}
+
+/**
+ * Update connection status in UI
+ */
+function updateConnectionStatus(data) {
+  try {
+    // Update connection indicator
+    const connectionIndicator = document.getElementById("connection-status");
+    if (connectionIndicator) {
+      connectionIndicator.className =
+        data.status === "connected" ? "connected" : "disconnected";
+      connectionIndicator.textContent =
+        data.status === "connected" ? "🟢 Çevrimiçi" : "🔴 Çevrimdışı";
+    }
+
+    // Show notification
+    if (data.status === "connected") {
+      showNotification("Sunucuya bağlandınız!", "success");
+    } else if (data.status === "disconnected") {
+      showNotification("Sunucu bağlantısı kesildi!", "error");
+    }
+  } catch (error) {
+    console.error("Connection status update error:", error);
+  }
+}
+
+/**
+ * Update room UI when joined
+ */
+function updateRoomUI(data) {
+  try {
+    // Update current room display
+    const roomDisplay = document.getElementById("current-room");
+    if (roomDisplay) {
+      roomDisplay.textContent = `Oda: ${data.roomId}`;
+    }
+
+    // Enable room-specific features
+    enableRoomFeatures(data.roomId);
+  } catch (error) {
+    console.error("Room UI update error:", error);
+  }
+}
+
+/**
+ * Add user to room display
+ */
+function addUserToRoom(data) {
+  try {
+    // Update user list in room
+    const userList = document.getElementById("room-users");
+    if (userList) {
+      const userItem = document.createElement("li");
+      userItem.className = "user-item online";
+      userItem.innerHTML = `
+        <span class="status-indicator"></span>
+        <span class="user-name">${data.username}</span>
+        <span class="user-status">Odada</span>
+      `;
+      userList.appendChild(userItem);
+    }
+
+    // Show notification
+    showNotification(`${data.username} odaya katıldı!`, "info");
+  } catch (error) {
+    console.error("Add user to room error:", error);
+  }
+}
+
+/**
+ * Remove user from room display
+ */
+function removeUserFromRoom(data) {
+  try {
+    // Remove user from list
+    const userList = document.getElementById("room-users");
+    if (userList) {
+      const userItems = userList.querySelectorAll(".user-item");
+      userItems.forEach((item) => {
+        const userName = item.querySelector(".user-name");
+        if (userName && userName.textContent === data.username) {
+          item.remove();
+        }
+      });
+    }
+
+    // Show notification
+    showNotification(`${data.username} odadan ayrıldı!`, "info");
+  } catch (error) {
+    console.error("Remove user from room error:", error);
+  }
+}
+
+/**
+ * Add message to chat
+ */
+function addMessageToChat(data) {
+  try {
+    const chatMessages = document.querySelector(".chat-messages");
+    if (chatMessages) {
+      const newMessage = document.createElement("div");
+      newMessage.className = "message";
+      newMessage.innerHTML = `
+        <span class="user">${data.username || data.userId}:</span>
+        <span class="text">${data.message}</span>
+      `;
+
+      chatMessages.appendChild(newMessage);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Remove old messages if too many
+      if (chatMessages.children.length > 50) {
+        chatMessages.removeChild(chatMessages.firstChild);
+      }
+    }
+  } catch (error) {
+    console.error("Add message to chat error:", error);
+  }
+}
+
+/**
+ * Update game state
+ */
+function updateGameState(data) {
+  try {
+    // Update game board
+    // Update player positions
+    // Update scores
+    console.log("Game state updated:", data);
+  } catch (error) {
+    console.error("Game state update error:", error);
+  }
+}
+
+/**
+ * Handle game start
+ */
+function handleGameStart(data) {
+  try {
+    showNotification("Oyun başladı!", "success");
+    // Enable game controls
+    // Start game timer
+    // Update UI for active game
+  } catch (error) {
+    console.error("Game start handler error:", error);
+  }
+}
+
+/**
+ * Handle game end
+ */
+function handleGameEnd(data) {
+  try {
+    showNotification("Oyun bitti!", "info");
+    // Show final scores
+    // Update player stats
+    // Reset game board
+  } catch (error) {
+    console.error("Game end handler error:", error);
+  }
+}
+
+/**
+ * Handle socket errors
+ */
+function handleSocketError(error) {
+  try {
+    showNotification("Bağlantı hatası: " + error.message, "error");
+  } catch (err) {
+    console.error("Socket error handler error:", err);
+  }
+}
+
+/**
+ * Handle connection errors
+ */
+function handleConnectionError(error) {
+  try {
+    showNotification("Bağlantı kurulamadı!", "error");
+    // Retry connection after delay
+    setTimeout(() => {
+      initializeSocketConnection();
+    }, 5000);
+  } catch (err) {
+    console.error("Connection error handler error:", err);
+  }
+}
+
+/**
+ * Enable room-specific features
+ */
+function enableRoomFeatures(roomId) {
+  try {
+    // Enable chat input
+    const chatInput = document.getElementById("chat-input");
+    if (chatInput) {
+      chatInput.disabled = false;
+      chatInput.placeholder = "Mesajınızı yazın...";
+    }
+
+    // Enable send button
+    const sendButton = document.getElementById("send-message-btn");
+    if (sendButton) {
+      sendButton.disabled = false;
+    }
+
+    // Add chat message handler
+    if (chatInput && sendButton) {
+      const sendMessage = () => {
+        const message = chatInput.value.trim();
+        if (message) {
+          // Send via socket
+          if (window.socketManager) {
+            window.socketManager.sendMessage(message);
+            chatInput.value = "";
+          }
+        }
+      };
+
+      sendButton.addEventListener("click", sendMessage);
+      chatInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          sendMessage();
+        }
+      });
+    }
+  } catch (error) {
+    console.error("Enable room features error:", error);
+  }
+}
+
+/**
+ * Show notification
+ */
+function showNotification(message, type = "info") {
+  try {
+    // Create notification element
+    const notification = document.createElement("div");
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+
+    // Add to page
+    document.body.appendChild(notification);
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 3000);
+  } catch (error) {
+    console.error("Show notification error:", error);
+  }
+}
+
+// Initialize socket connection after login/register
+document.addEventListener("user-logged-in", () => {
+  setTimeout(() => {
+    initializeSocketConnection();
+  }, 1000);
+});
+
+// Initialize socket on page load if user is already logged in
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      initializeSocketConnection();
+    }
+  }, 500);
+});
